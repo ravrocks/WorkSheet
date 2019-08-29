@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>Worksheet Manager</display-name>
+  <welcome-file-list>
+    <welcome-file>home.jsp</welcome-file>
+  </welcome-file-list>		
+  <servlet>
+        <servlet-name>Registration</servlet-name>
+        <servlet-class>com.works.Registration</servlet-class>
+        
+  </servlet>
+  
+  <servlet-mapping>
+        <servlet-name>Registration</servlet-name>
+        <url-pattern>/Registration</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>com.works.Login</servlet-class>
+        
+  </servlet>
+  <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+        <servlet-name>MonthChange</servlet-name>
+        <servlet-class>com.works.MonthChange</servlet-class>
+        
+  </servlet>
+  <servlet-mapping>
+        <servlet-name>MonthChange</servlet-name>
+        <url-pattern>/MonthSet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+        <servlet-name>DataFeed</servlet-name>
+        <servlet-class>com.works.DataFeed</servlet-class>
+        
+  </servlet>
+  <servlet-mapping>
+        <servlet-name>DataFeed</servlet-name>
+        <url-pattern>/DataFeed</url-pattern>
+  </servlet-mapping>
+</web-app>
