@@ -8,4 +8,4 @@ JAR Files required here->>
 3. gson-2.6.2
 
 Add this line to your server's context.xml--->
-# <CookieProcessor className="org.apache.tomcat.util.http.LegacyCookieProcessor" />
+<!-- <CookieProcessor className="org.apache.tomcat.util.http.LegacyCookieProcessor" /> -->
