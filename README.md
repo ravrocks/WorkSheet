@@ -1,8 +1,8 @@
 # WorkSheet
 Lnt Related Worksheet content
 
-JAR Files here->>
+JAR Files required here->>
 
-json-20190722
-mysql-connector-java-5.1.24-bin
-gson-2.6.2
+1. json-20190722
+2. mysql-connector-java-5.1.24-bin
+3. gson-2.6.2
