@@ -1,4 +1,6 @@
 # WorkSheet
+<CookieProcessor className="org.apache.tomcat.util.http.LegacyCookieProcessor" />
+
 Lnt Related Worksheet content
 
 JAR Files required here->>
