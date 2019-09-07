@@ -20,7 +20,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeSheet</title>
+    <title>My Records</title>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/Grid-and-List-view-V10.js"></script>
     
@@ -39,7 +39,7 @@
 
 <body>
     <section>
-    <div class="col-md-12 col-sm-6 sticky-top align-self-center align-top" style="margin-top:0px;padding:0px">
+    <div class="col-md-12 col-sm-6 sticky-top align-self-center align-top" style="margin-top:-20px;padding:0px">
                     <nav class="navbar navbar-expand-md navigation-clean " style="-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;">
                     <img class="img-fluid" style="height:auto" src="assets/images/swclogo.png">
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">

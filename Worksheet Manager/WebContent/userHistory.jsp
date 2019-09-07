@@ -89,7 +89,7 @@ while(rs.next()){
 if(rs.getString("status").equals("Submitted"))
 {
 	%>
-	<a onclick="basicPopup(this.href);return false" href="reports.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">View</a>&nbsp;&nbsp;	
+	<a onclick="basicPopup(this.href);return false" href="print.jsp?for_month=<%=rs.getString("month")%>">View</a>&nbsp;&nbsp;	
 	<%
 }
 else
