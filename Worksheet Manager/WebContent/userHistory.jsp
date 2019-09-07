@@ -1,19 +1,17 @@
-<%@page import="com.works.getConnection"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
+<%@page import="com.works.getConnection" %>
 <%
-    String userName = null,userPsno=null, showMonth=null;
+    String userName = null,userPsno=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
-        if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
-        if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();        
+        if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();        
     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
-
 Connection connection = null;
 Statement statement = null;
 ResultSet rs = null;
@@ -62,43 +60,51 @@ popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50
 </head>
 <body>
 <div class="container" > 
-<div> Filter by Name or PS no.&nbsp;&nbsp;<input id="search" type="text" placeholder="Search.."><br><br></div>
-<div>
+<div> Filter by Month&nbsp;&nbsp;<input id="search" type="text" placeholder="Search.."><br><br></div>
+
 <table class="table table-hover table-bordered" id="table">
 <thead>
 <tr>
 <th scope="col">Name</th>
-<th scope="col">PSno</th>
-<th scope="col">Details</th>
+<th scope="col">Month</th>
+<th scope="col">Status</th>
+<th scope="col"></th>
 </tr>
 </thead>
 <%
 try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-int show_month;
-String mx=showMonth;
-if(mx==null)
-show_month=Calendar.getInstance().get(Calendar.MONTH)+1;
-else    
-show_month=Integer.parseInt(mx);
-
-String sql ="select distinct userstatus.name, details.psno from userstatus, details  where userstatus.psno = details.psno and details.month="+show_month+" and userstatus.status like 'Submitted';";
+String sql ="select name,psno,month,status from userstatus where psno='"+Integer.parseInt(userPsno)+"' and name like '"+userName+"';";
 rs = statement.executeQuery(sql);
 while(rs.next()){
 %>
 <tbody>
 <tr>
-<td><%=rs.getString("name") %></td>
-<td><%=rs.getString("psno") %></td>
+<td><%=userName %></td>
+<td><%=rs.getString("month") %></td>
+<td><%=rs.getString("status") %></td>
 <td>
-<a onclick="basicPopup(this.href);return false" href="reports.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">Detailed Report</a>&nbsp;&nbsp;
-<a onclick="basicPopup(this.href);return false" href="reports1.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">Summary</a>
+<%
+if(rs.getString("status").equals("Submitted"))
+{
+	%>
+	<a onclick="basicPopup(this.href);return false" href="reports.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">View</a>&nbsp;&nbsp;	
+	<%
+}
+else
+{
+	%>
+	<a onclick="sendEdit(<%=rs.getString("month")%>)" href="#">Edit</a>
+	<%
+}
+%>
 </td>
 </tr>
 </tbody>
 <%
 }
+rs.close();
 connection.close();
 } 
 catch (Exception e) {
@@ -107,7 +113,27 @@ e.printStackTrace();
 %>
 </table>
 </div>
-</div>
+
+<script>
+var monthAA = new Array();
+monthAA[0] = "January";
+monthAA[1] = "February";
+monthAA[2] = "March";
+monthAA[3] = "April";
+monthAA[4] = "May";
+monthAA[5] = "June";
+monthAA[6] = "July";
+monthAA[7] = "August";
+monthAA[8] = "September";
+monthAA[9] = "October";
+monthAA[10] = "November";
+monthAA[11] = "December";
+function sendEdit(month)
+{
+	document.cookie = "timesheet_load_month="+monthAA[month-1];
+	window.location="userform_personal.jsp";
+}
+</script>
 </body>
 
 </html>

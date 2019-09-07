@@ -4,10 +4,13 @@
     Author     : ravi
 --%>
 
+<%@page import="java.util.HashSet"%>
 <%@page import="com.works.getConnection"%>
 <%@page import="com.sun.org.apache.bcel.internal.generic.AALOAD"%>
+<%@page import="java.sql.*" %>
 <%@page import="java.util.StringTokenizer"%>
-<%@page import="java.sql.*"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,7 +24,7 @@
 <script src="assets/js/jquery-clockpicker.js"></script>
 <script src="assets/js/jquery.bootpag.min.js"></script>
 <%
-    String userName = null,userPsno=null,viewing_month=null;
+    String userName = null,userPsno=null,userTIC=null,viewing_month=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
@@ -32,7 +35,7 @@
     }
     if((userName == null)) 
         response.sendRedirect("home.jsp");
-%>
+    %>
 <script>
     var late_id=1;
     $( document ).ready(function() {
@@ -166,28 +169,6 @@
                          	{
                          	e.printStackTrace();    
                          	}
-                      try{
-                    	  Connection conn=new getConnection().getConnection();
-                    	  Statement updateSS=conn.createStatement();
-                    	  String monint[]={"January","February","March","April","May","JUNE","July","August","september","october","november","december"};
-                          int viewing_month_int=0;
-                          for(int lp=0;lp<monint.length;lp++)
-                          {
-                        	  if(monint[lp].equalsIgnoreCase(viewing_month))
-                        	  {
-                        		  viewing_month_int=lp+1;
-                        		  break;
-                        	  }
-                          }
-                    	  updateSS.executeUpdate("insert into userstatus(name,psno,month,status) values('"+userName+"',"+userPsno+","+viewing_month_int+",'Pending')");
-                    	  
-                    	  updateSS.close();
-                    	  conn.close();
-                      }
-                      catch(Exception e)
-                      {
-                    	  e.printStackTrace();
-                      }
                       String dayz=request.getParameter("dayz");
                       StringTokenizer stz=new StringTokenizer(dayz,",");
                       int length=stz.countTokens();
@@ -197,12 +178,111 @@
                         {
                           array_for_days[i++]=stz.nextToken();
                       }
+                      getConnection zxc=new getConnection();
+                      Connection conn=zxc.getConnection();
+                      String monint[]={"January","February","March","April","May","JUNE","July","August","september","october","november","december"};
+                      int viewing_month_int=0;
+                      for(int lp=0;lp<monint.length;lp++)
+                      {
+                    	  if(monint[lp].equalsIgnoreCase(viewing_month))
+                    	  {
+                    		  viewing_month_int=lp+1;
+                    		  break;
+                    	  }
+                      }
+                      PreparedStatement ssstate=conn.prepareStatement("select * from details where psno="+Integer.parseInt(userPsno)+" and month="+viewing_month_int+" ORDER by date");
+                      ResultSet rsss=ssstate.executeQuery();
+                      HashSet<String> zzset=new HashSet<String>();
+                      int fcount=0;
+                      while(rsss.next())
+                      {
+                    	  String sDate1=rsss.getString("date");
+                          Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1); 
+                  		  String pattern = "EEE MMM dd YYYY";
+                          SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                          String printdate=simpleDateFormat.format(date1);
+                    	  %>
+                    	  <tr id="<%=printdate+"_row"%>">
+                    	  <td align="center" class="col-md-1">
+                              <%
+                              out.print(printdate);
+                              String stertingz=rsss.getString("fromtime");
+                              String endingz=rsss.getString("totime");
+                              %>
+                            </td>
+                            <td>
+                            <div id="<%=sDate1+"_startc"%>"  style="width:100px" class="input-group" data-placement="right" data-align="top" data-autoclose="true">
+                                <input style="width:100%;" type="text" class="form-control" value="<%=stertingz%>">
+                                <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time" style="color:#197724">
+                                </span>
+                                </span>
+                                </div>
+                                <!-- End Time details -->
+                                <div id="<%=sDate1+"_endc"%>" style="width:100px;margin-top:15px" class="input-group" data-placement="right" data-align="top" data-autoclose="true">
+                                <input style="width:100%;" type="text" class="form-control" value="<%=endingz%>">
+                                <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time" style="color:#970002">
+                                </span>
+                                </span>
+                             </div>
+                            </td>
+                            <td>
+                            <input type="text" list="browsers2" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("project")%>">
+                            <datalist id="browsers2">
+                            		<%
+                            		out.print(project_list);
+                            		%>
+                        	</datalist>
+                            </td>
+                            <td>
+                            <input type="text" list="proj_type" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("subfunction")%>">
+                            <datalist id="proj_type" >
+                            		<%
+                            		out.print(subfunction);
+                            		%>
+                        	</datalist>
+                            </td>
+                            <td>
+                            <input type="text" list="browsers3" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("activitygroup")%>">
+                            <datalist id="browsers3">
+                           			<%
+                            		out.print(activity_group);
+                            		%>
+                            </datalist>
+                            </td>
+                            <td>
+                            <input type="text" list="browsers" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("activity")%>">
+                            <datalist id="browsers">
+                            		<%
+                            		out.print(activity_list);
+                            		%>
+                        	</datalist>
+                            </td>
+                            <td>
+                            <textarea class="form-control" id="remarking" rows=4><%=rsss.getString("remarks")%></textarea>
+                            </td>
+                            <td class="col-md-1"> 
+                                <button id="<%=printdate%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                                <button id="<%=printdate+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            </td>
+                            </tr>
+                           
+                    	  <%
+                    	  zzset.add(printdate);
+                    	  fcount++;
+                      }
+					  rsss.close();
+                 	  conn.close();
                       //out.print("got----------"+array_for_days[--i]);
+                     
                       for(int j=0;j<i;j++)
                          {
                           String formated_date=array_for_days[j].substring(0, 15);
+                          if(zzset.contains(formated_date))
+                        	  continue;
                           String formated_date_row=formated_date+"_row";
-                      %>
+                      		%>
                           <tr id="<%=formated_date_row%>">
                             <td align="center" class="col-md-1">
                               <%
@@ -269,7 +349,4 @@
                       %>
                  </tbody>
        </table>
-     <script>
-     	
-     </script>
 </html>

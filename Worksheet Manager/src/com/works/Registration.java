@@ -31,15 +31,16 @@ public class Registration extends HttpServlet{
 		  String confirmpass = request.getParameter("confirmpass");
 		  String supervisor="MS";
 		  String usertype="user";
+		  String domain = request.getParameter("domain");
 		  
 		   boolean status=false;
 		   try {
 				
 			    Class.forName("com.mysql.jdbc.Driver");
-			    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/lnttic", "root", "root");
+			    Connection con = new getConnection().getConnection();
 			    String psn = "select psno from userdata where psno=?";
 			    PreparedStatement ps1 = con.prepareStatement(psn);   
-			    ps1.setString(1, psno);
+			    ps1.setInt(1, Integer.parseInt(psno));
 			    ResultSet rs1=ps1.executeQuery();
 			    status=rs1.next();
 			    System.out.print(status);
@@ -55,17 +56,18 @@ public class Registration extends HttpServlet{
 					    String pattern = "MM";
                              SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                              String month_created=Integer.parseInt(simpleDateFormat.format(new Date()))+"";
-                             String query = "insert into userdata values(?,?,?,?,?,?,?,?,?)";
+                             String query = "insert into userdata values(?,?,?,?,?,?,?,?,?,?)";
 					    PreparedStatement ps = con.prepareStatement(query);   
 					    ps.setString(1, name);
-					    ps.setString(2, psno);
+					    ps.setInt(2, Integer.parseInt(psno));
 					    ps.setString(3, email);
 					    ps.setString(4, designation);
 					    ps.setString(5, password);
 					    ps.setString(6, confirmpass);
 					    ps.setString(7, supervisor);
 					    ps.setString(8, usertype);
-                                            ps.setString(9, month_created);						
+					    ps.setInt(9, Integer.parseInt(month_created));
+                        ps.setString(10, domain);
 					    ps.executeUpdate();		    
 					    System.out.println("successfuly inserted");
 					    ps.close();

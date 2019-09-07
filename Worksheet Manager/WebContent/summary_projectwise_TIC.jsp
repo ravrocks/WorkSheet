@@ -1,3 +1,4 @@
+<%@page import="com.works.getConnection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>
@@ -18,17 +19,6 @@ for(Cookie cookie : cookies){
 }
 if(userName == null) response.sendRedirect("home.jsp");
 
-String driver = "com.mysql.jdbc.Driver";
-String connectionUrl = "jdbc:mysql://localhost:3306/";
-String database = "lnttic";
-String userid = "root";
-String password = "root";
-
-try {
-Class.forName(driver);
-} catch (ClassNotFoundException e) {
-e.printStackTrace();
-}
 Connection connection = null;
 Statement statement = null;
 ResultSet rs = null;
@@ -61,7 +51,7 @@ ResultSet rs2 = null;
 
 <%
 try{
-connection = DriverManager.getConnection(connectionUrl+database, userid, password);
+connection = new getConnection().getConnection();
 statement=connection.createStatement();
 String sql="Select * from subfunction where extra=?";
 String sql1="Select distinct userdata.name from details,userdata where details.subfunction=? and details.project=? and userdata.psno = details.psno and month="+showMonth+"";
@@ -71,7 +61,7 @@ String sql2="Select sum(hrs) from details where subfunction=? and project=? and 
 PreparedStatement ps = connection.prepareStatement(sql); 
 PreparedStatement ps1 = connection.prepareStatement(sql1); 
 PreparedStatement ps2 = connection.prepareStatement(sql2); 
-ps.setString(1,"ntic");
+ps.setString(1,"tic");
 rs=ps.executeQuery();
 while(rs.next()){
 	String subfun = rs.getString(2);
@@ -107,7 +97,7 @@ while(rs.next()){
 		while(rs2.next()){
 			str=rs2.getString(1); 
 			if(str==null)
-       		  str="0";
+	       		  str="0";
 		}
 	
 	%>

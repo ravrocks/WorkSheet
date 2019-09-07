@@ -17,7 +17,7 @@
     </script>
 <div class="col-md-6">
                     <div class="dropdown">
-                        <input type="text" list="browsers3" autocomplete="off" class="custom-select" style="height: 100%;width: 200px;padding: 10px;font-size: 16px;margin-right: 0px">
+                        <input type="text" list="browsers3" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-right: 0px">
                            <datalist id="browsers3">
                             <%
                             try{

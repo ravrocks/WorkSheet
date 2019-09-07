@@ -15,6 +15,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="E:/Important JARS/gson-2.6.2.jar"/>
 	<classpathentry kind="lib" path="E:/Important JARS/json-20190722.jar"/>
-	<classpathentry kind="lib" path="E:/Important JARS/mysql-connector-java-5.1.24-bin.jar"/>
+	<classpathentry kind="lib" path="E:/Important JARS/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="E:/Final Jar files to copy/postgresql-42.2.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

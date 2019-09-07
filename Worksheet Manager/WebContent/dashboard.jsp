@@ -1,4 +1,5 @@
 
+<%@page import="com.works.getConnection"%>
 <%@ page import="java.sql.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,18 +20,13 @@
     //code for populating numbers
     if(showMonth!=null)
       {
-    String driverr = "com.mysql.jdbc.Driver";
-    String connectionUrll = "jdbc:mysql://localhost:3306/";
-    String databasee = "lnttic";
-    String useridd = "root";
-    String passwordd = "root";
+   
     try{
-    Class.forName(driverr);
-    Connection connectionn = DriverManager.getConnection(connectionUrll+databasee, useridd, passwordd);
+    Connection connectionn = new getConnection().getConnection();
     Statement statementt=connectionn.createStatement();
-    String fquery="select count(*) from userdata where `moncreate`<="+showMonth+" and `usertype`='user'";
-    String squery="select count(distinct userdata.name, details1.psno) from userdata, details1 where userdata.psno = details1.psno and details1.month="+showMonth;
-    String tquery="select count(distinct userdata.psno,userdata.name) from userdata WHERE NOT EXISTS (select distinct details1.psno from details1 where details1.psno=userdata.psno and month="+showMonth+") and userdata.usertype='user' and userdata.moncreate<="+showMonth;
+    String fquery="select count(*) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'";
+    String squery="select count(distinct userstatus.name) from userstatus where userstatus.month="+Integer.parseInt(showMonth)+" and status='Submitted'";
+    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
     ResultSet ress=statementt.executeQuery(fquery);
     ress.next();
     total=ress.getString(1);
@@ -97,20 +93,20 @@
                 <div class="col-sm-6 col-md-3 column"> 
                     <div class="dropdown">
                     <button id="monthButton" class="btn-lg btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >Month</button>
-                    <div id="monthMenu" class="dropdown-menu " role="menu" >
-			<a class="dropdown-item" role="presentation" >January</a>
-            		<a class="dropdown-item" role="presentation" >February</a>
-			<a class="dropdown-item" role="presentation" >March</a>
-			<a class="dropdown-item" role="presentation" >April</a>
-                	<a class="dropdown-item" role="presentation" >May</a>
-			<a class="dropdown-item" role="presentation" >June</a>
-			<a class="dropdown-item" role="presentation" >July</a>
-			<a class="dropdown-item" role="presentation" >August</a>
-			<a class="dropdown-item" role="presentation" >September</a>
-			<a class="dropdown-item" role="presentation" >October</a>
-			<a class="dropdown-item" role="presentation" >November</a>
-			<a class="dropdown-item" role="presentation" >December</a>
-			</div>
+                    	<div id="monthMenu" class="dropdown-menu " role="menu" >
+							<a class="dropdown-item" role="presentation" >January</a>
+		            		<a class="dropdown-item" role="presentation" >February</a>
+							<a class="dropdown-item" role="presentation" >March</a>
+							<a class="dropdown-item" role="presentation" >April</a>
+		                	<a class="dropdown-item" role="presentation" >May</a>
+							<a class="dropdown-item" role="presentation" >June</a>
+							<a class="dropdown-item" role="presentation" >July</a>
+							<a class="dropdown-item" role="presentation" >August</a>
+							<a class="dropdown-item" role="presentation" >September</a>
+							<a class="dropdown-item" role="presentation" >October</a>
+							<a class="dropdown-item" role="presentation" >November</a>
+							<a class="dropdown-item" role="presentation" >December</a>
+						</div>
                     </div>       
                     <h2 style="margin-top:10px">Select Month </h2>
                 </div>

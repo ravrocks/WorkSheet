@@ -62,7 +62,7 @@
 										<input type="text" name="name" id="name" tabindex="1" class="form-control" placeholder="Employee Name" required>
 									</div>
 									<div class="form-group">
-										<input type="text" name="psno" id="psno" tabindex="1" class="form-control" placeholder="PS no." required>
+										<input type="text" name="psno" id="psno" tabindex="1" class="form-control" placeholder="PS no." required onkeypress='validate(event)'>
 									</div>
 									<div class="form-group">
 										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" required>
@@ -70,6 +70,15 @@
 									<div class="form-group">
 										<input type="text" name="designation" id="designation" tabindex="1" class="form-control" placeholder="Designation" required>
 									</div>
+									 <div class="form-group">
+									 	<select name="domain" id="domain" tabindex="1" class="form-control" required>
+									 	    <option value="" disabled selected>Select domain</option>
+										    <option value="Communication">Communication</option>
+										    <option value="Cyber Security">Cyber Security</option>
+										    <option value="Smart City">Smart City</option>
+										    <option value="TIC">TIC</option>
+										</select>
+									 </div>
 									<div class="form-group">
 										<input type="password" name="password" id="pass" tabindex="2" class="form-control" placeholder="Password" >
 									</div>
@@ -79,7 +88,6 @@
 									<div class="form-group">
 										<span class="error" style="color:red"></span><br />
 									</div>
-									
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
@@ -97,6 +105,25 @@
     </div>
 </body>
 <script>
+
+function validate(evt) {
+	  var theEvent = evt || window.event;
+
+	  // Handle paste
+	  if (theEvent.type === 'paste') {
+	      key = event.clipboardData.getData('text/plain');
+	  } else {
+	  // Handle key press
+	      var key = theEvent.keyCode || theEvent.which;
+	      key = String.fromCharCode(key);
+	  }
+	  var regex = /[0-9]|\./;
+	  if( !regex.test(key) ) {
+	    theEvent.returnValue = false;
+	    if(theEvent.preventDefault) theEvent.preventDefault();
+	  }
+	}
+
 $(function() {
 
     $('#login-form-link').click(function(e) {

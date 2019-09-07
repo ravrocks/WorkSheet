@@ -12,8 +12,8 @@ import java.sql.DriverManager;
  * @author ravi
  */
 public class getConnection {
-private String driver = "com.mysql.jdbc.Driver";
-private String connectionUrl = "jdbc:mysql://localhost:3306/";
+private String driver = "org.postgresql.Driver";
+private String connectionUrl = "jdbc:postgresql://localhost:5959/";
 private String database = "lnttic";
 private String userid = "root";
 private String password = "root";

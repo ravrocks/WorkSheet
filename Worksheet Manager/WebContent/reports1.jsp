@@ -32,14 +32,14 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String sql ="select subfunction,project,activitygroup,activity,date,hrs,remarks,fromtime from details where month="+Integer.parseInt(showMonth)+" and psno=? order by date asc";
+    String sql ="select subfunction,sum(hrs) from details where month="+Integer.parseInt(showMonth)+" and psno=? group by subfunction";
     String total="select sum(hrs) from details where month="+showMonth+" and psno=?";
 	//rs = statement.executeQuery(sql);
 	PreparedStatement ps = connection.prepareStatement(sql); 
-	PreparedStatement ps1 = connection.prepareStatement(total);
+	PreparedStatement ps1 = connection.prepareStatement(total); 
 	ps.setInt(1, Integer.parseInt(psno));
-	rs=ps.executeQuery();
 	ps1.setInt(1, Integer.parseInt(psno));
+	rs=ps.executeQuery();
 	rs1=ps1.executeQuery();
         %>
     <body>
@@ -48,14 +48,8 @@
     <table id="example" class="display table-bordered" style="width:99%">
     <thead>
         <tr>
-           <th scope="col">Date</th>
 				<th scope="col">Subfunction</th>
-				<th scope="col">Project</th>
-				<th scope="col">Activity Group</th>
-				<th scope="col">Activity</th>
-				<th scope="col">Remarks</th>
-				<th scope="col">From Time</th>
-				<th scope="col">Hrs</th>
+				<th scope="col">Total hrs</th>
         </tr>
     </thead>    
     <tbody>
@@ -63,17 +57,8 @@
         while(rs.next()){
             %>
     <tr>
-    	<td><%=rs.getString("date") %></td>
 		<td><%=rs.getString("subfunction") %></td>
-		<td><%=rs.getString("project") %></td>
-		<td><%=rs.getString("activitygroup") %></td>
-		<%
-		String act=rs.getString("activity");
-		%>
-		<td><%out.print(act);%></td>
-		<td><%=rs.getString("remarks") %></td>
-		<td><%=rs.getString("fromtime") %></td>
-		<% String hrs=rs.getString("hrs"); 
+		<% String hrs=rs.getString(2); 
 		//if(act.equals("Holiday"))
 			   // hrs="0";
 		%>
@@ -86,7 +71,6 @@
     String totalhrs=rs1.getString(1); %>
     <tr>
     <td>Total</td>
-    <td></td><td></td><td></td><td></td><td></td><td></td>
     <td><%out.print(totalhrs); %></td>
     </tr>
     </tbody>

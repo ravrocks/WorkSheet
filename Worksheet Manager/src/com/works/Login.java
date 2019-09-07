@@ -28,15 +28,14 @@ public class Login extends HttpServlet{
 		
 		boolean status=false;
 		 try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/lnttic", "root", "root"); 
-		    String query = "select name,psno,password,usertype from userdata where psno=? and password=? ";
+			getConnection zz=new getConnection();
+			Connection con=zz.getConnection();
+		    String query = "select name,psno,password,usertype from userdata where psno=? and password like ?";
 		    
 		    PreparedStatement ps = con.prepareStatement(query); 
-		    ps.setString(1,psno);
+		    ps.setInt(1,Integer.parseInt(psno));
 			ps.setString(2,pass);
 			ResultSet rs=ps.executeQuery();
-		    
 			status=rs.next();
 			
                         
@@ -49,7 +48,7 @@ public class Login extends HttpServlet{
                                         //loginCook2.setMaxAge(30*60);
                                         response.addCookie(loginCook);
                                         response.addCookie(loginCook2);
-								response.sendRedirect("userform.jsp");
+                                        response.sendRedirect("userform_tile.jsp");
 				}
 				else {
                                         String pattern = "MM";
@@ -72,14 +71,17 @@ public class Login extends HttpServlet{
 			}
 			else { 
 			   RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
-                  request.setAttribute("failure", "Login Failed");
+               request.setAttribute("failure", "Login Failed");
 			   rd.forward(request, response);
 			}
 		    con.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
                System.out.println(e.toString());
-			e.printStackTrace();
+               RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+               request.setAttribute("failure", "Login Failed");
+			   rd.forward(request, response);
+               e.printStackTrace();
 		}
 		 
 	}

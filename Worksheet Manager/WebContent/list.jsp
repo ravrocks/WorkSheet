@@ -36,10 +36,10 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String fquery="select * from userdata where `moncreate`<="+showMonth+" and `usertype`='user'";
-    String squery="select distinct userdata.name,userdata.psno,userdata.email,details1.psno from userdata, details1 where userdata.psno = details1.psno and details1.month="+showMonth;
-    String tquery="select distinct userdata.psno,userdata.name,userdata.email from userdata WHERE NOT EXISTS (select distinct details1.psno from details1 where details1.psno=userdata.psno and month="+showMonth+") and userdata.usertype='user' and userdata.moncreate<="+showMonth;
-    ResultSet res=null;
+    String fquery="select * from userdata where moncreate<="+showMonth+" and usertype='user'";
+    String squery="select distinct userstatus.name, userstatus.psno, userdata.email from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+showMonth+" and status='Submitted'";
+    String tquery="select distinct userdata.name, userdata.psno, userdata.email from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
+	ResultSet res=null;
     if(calling.equals("total"))
     res=statementt.executeQuery(fquery);
        else if(calling.equals("filled"))

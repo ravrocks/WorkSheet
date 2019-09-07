@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DataFeed extends HttpServlet{
+public class DataFeed2 extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		  response.setContentType("text/html");
@@ -47,7 +47,7 @@ public class DataFeed extends HttpServlet{
               		  break;
               	  }
                 }
-          	  updateSS.executeUpdate("update userstatus set status='Working' where name='"+userName+"' and psno="+userPsno+" and month="+viewing_month_int);          	  
+          	  updateSS.executeUpdate("update userstatus set status='Submitted' where name='"+userName+"' and psno="+userPsno+" and month="+viewing_month_int);          	  
           	  updateSS.close();
           	  conn.close();
             }
@@ -94,7 +94,7 @@ public class DataFeed extends HttpServlet{
                        {
                 	   PreparedStatement prepS_del=con.prepareStatement("delete from details where psno="+Integer.parseInt(userPsno)+" and domain like '"+domainz+"' and subfunction like '"+plist+"' and project like '"+ptype+"' and activitygroup like '"+agroup+"' and activity like '"+alist+"' and date like '"+modif_date(date)+"'");
                        prepS_del.executeUpdate();
-                       prepS.setInt(1, Integer.parseInt(userPsno));
+                           prepS.setInt(1, Integer.parseInt(userPsno));
                            prepS.setString(2, domainz);
                            prepS.setString(3, plist);
                            prepS.setString(4, ptype);

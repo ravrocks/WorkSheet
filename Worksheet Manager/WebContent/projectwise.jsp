@@ -1,3 +1,4 @@
+<%@page import="com.works.getConnection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>
@@ -7,25 +8,19 @@
 <%@ page import="java.util.ListIterator"%>
 
 <%
-String userName = null,userPsno=null;
+String userName = null,userPsno=null, showMonth=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
-        if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
+    if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
+    if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
+    
     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
-String driver = "com.mysql.jdbc.Driver";
-String connectionUrl = "jdbc:mysql://localhost:3306/";
-String database = "lnttic";
-String userid = "root";
-String password = "root";
-try {
-Class.forName(driver);
-} catch (ClassNotFoundException e) {
-e.printStackTrace();
-}
+    
+    
 Connection connection = null;
 Statement statement = null;
 ResultSet rs = null;
@@ -58,7 +53,7 @@ div.k{
 
 <script>
 $(document).ready(function(){
-	  $("#search").on("keyup", function() {
+	  $("#searchh").on("keyup", function() {
 	    var value = $(this).val().toLowerCase();
 	    $("#table tr").filter(function() {
 	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -70,61 +65,50 @@ $(document).ready(function(){
 	function basicPopup(url) {
 popupWindow = window.open(url,'popUpWindow','height=300,width=700,left=50,top=50,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes')
 	}
-
 </script>
+
 </head>
 <body>
 <div class="container" >
-  <% 
-    String name = userName; 
-    String psno = userPsno; 
-	request.getSession(false);
-	 
- %>  
-
-<div> Filter &nbsp;&nbsp;<input id="search" type="text" placeholder="Search.."><br><br></div>
-<div>
+<div> Filter&nbsp;&nbsp;<input id="searchh" type="text" placeholder="Search.."><br><br></div>
 <table class="table table-hover table-bordered" id="table">
 <thead>
 <tr>
-<th scope="col">Project Type</th>
-<th scope="col">Project</th>
+<th scope="col">Project Name</th>
+<th scope="col">Total time(hrs)</th>
+<th scope="col">Details</th>
 </tr>
 </thead>
 <%
 try{
-connection = DriverManager.getConnection(connectionUrl+database, userid, password);
+connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql ="select * from project_type";
-String sql1 = "select distinct project from details1 where projecttype=?";
+String sql ="select * from project_list";
+String sql1 = "select sum(hrs) from details where exists (select userstatus.psno from userstatus where userstatus.psno=details.psno and userstatus.status like 'Submitted') and project=? and month="+showMonth+"";
 PreparedStatement ps1 = connection.prepareStatement(sql1);
 rs = statement.executeQuery(sql);
 
 while(rs.next()){
-    String pprint=rs.getString("desc");
+    String city=rs.getString("listing");
+    ps1.setString(1, city);
+    rs1 = ps1.executeQuery();
 %>
 <tbody>
        <tr>
-             <td><%out.print(pprint);%></td>
-             <%
-				ps1.setString(1, pprint);
-				rs1=ps1.executeQuery();
-				List<String> list = new ArrayList<String>();
-				while(rs1.next()){
-				list.add(rs1.getString(1));
-				}
-				%>
-				<td><%
-				ListIterator<String> li=list.listIterator();
-				while(li.hasNext())
-				{
-				    String temp=li.next();%>
-				    <a onclick="basicPopup(this.href);return false" href="summary_projectwise.jsp?projecttype=<%out.print(pprint);%>&project=<% out.print(temp);%>"><% out.print(temp);%></a>
-				    <% if(li.hasNext())
-				        out.print(",");
-				}%>
-             </td>
-
+             <td><%out.print(city);%></td>
+             <td><% while(rs1.next()){
+            	 String temp=rs1.getString(1);
+            	 if(temp==null)
+            		 out.print("0");
+            	 else 
+            		 out.print(temp); 
+             }  
+             %></td>
+             <%if(city.equals("TIC")){%>
+                 	<td><a onclick="basicPopup(this.href);return false" href="summary_projectwise_TIC.jsp?projectname=<%out.print(city);%>">view</a></td>
+                <%}else{%>
+                	<td><a onclick="basicPopup(this.href);return false" href="summary_projectwise.jsp?projectname=<%out.print(city);%>">view</a></td>
+       			<%} %>
        </tr>
 </tbody>
 <%
@@ -137,6 +121,6 @@ e.printStackTrace();
 </table>
 </div>
 </div>
-</body>
 
+</body>
 </html>
