@@ -16,7 +16,7 @@ private String driver = "org.postgresql.Driver";
 private String connectionUrl = "jdbc:postgresql://localhost:5959/";
 private String database = "lnttic";
 private String userid = "root";
-private String password = "root";
+private String password = "26_v9Fe},,6\\Z3E?";
 Connection connection = null;
     public Connection getConnection() {
         try {
