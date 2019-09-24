@@ -10,11 +10,12 @@
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
-	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
+		if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
         if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
-    }
+    	}
     }
     if(userName == null) response.sendRedirect("home.jsp");
+    if(showMonth == null) response.sendRedirect("logout.jsp");
     
     String total="4",filled="2",pending = "2";
     //code for populating numbers
@@ -24,9 +25,9 @@
     try{
     Connection connectionn = new getConnection().getConnection();
     Statement statementt=connectionn.createStatement();
-    String fquery="select count(*) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'";
+    String fquery="select count(*) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user' and validity=1";
     String squery="select count(distinct userstatus.name) from userstatus where userstatus.month="+Integer.parseInt(showMonth)+" and status='Submitted'";
-    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
+    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and validity=1 and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
     ResultSet ress=statementt.executeQuery(fquery);
     ress.next();
     total=ress.getString(1);

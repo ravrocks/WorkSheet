@@ -32,12 +32,12 @@ public class Registration extends HttpServlet{
 		  String supervisor="MS";
 		  String usertype="user";
 		  String domain = request.getParameter("domain");
-		  
+		  Connection con=null;
 		   boolean status=false;
 		   try {
 				
 			    Class.forName("com.mysql.jdbc.Driver");
-			    Connection con = new getConnection().getConnection();
+			    con = new getConnection().getConnection();
 			    String psn = "select psno from userdata where psno=?";
 			    PreparedStatement ps1 = con.prepareStatement(psn);   
 			    ps1.setInt(1, Integer.parseInt(psno));
@@ -77,6 +77,12 @@ public class Registration extends HttpServlet{
 						rd.forward(request, response);
 					   } 
 				   }catch (ClassNotFoundException | SQLException e) {
+					   		try {
+								con.close();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						    e.printStackTrace();
 						   }
 				   

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,16 +26,17 @@ public class Login extends HttpServlet{
 		
 		String psno=request.getParameter("psno");
 		String pass=request.getParameter("password");
-		
+		Connection con=null;
 		boolean status=false;
 		 try {
 			getConnection zz=new getConnection();
-			Connection con=zz.getConnection();
-		    String query = "select name,psno,password,usertype from userdata where psno=? and password like ?";
+			con=zz.getConnection();
+		    String query = "select name,psno,password,usertype from userdata where psno=? and password like ? and validity=?";
 		    
 		    PreparedStatement ps = con.prepareStatement(query); 
 		    ps.setInt(1,Integer.parseInt(psno));
 			ps.setString(2,pass);
+			ps.setInt(3, 1);
 			ResultSet rs=ps.executeQuery();
 			status=rs.next();
 			
@@ -49,6 +51,15 @@ public class Login extends HttpServlet{
                                         response.addCookie(loginCook);
                                         response.addCookie(loginCook2);
                                         response.sendRedirect("userform_tile.jsp");
+				}
+				else if(usertype.equals("admin")){
+										Cookie loginCook= new Cookie("timesheet_psno",psno);
+					                    Cookie loginCook2= new Cookie("timesheet_name",rs.getString(1));
+					                    //loginCook.setMaxAge(30*60);
+					                    //loginCook2.setMaxAge(30*60);
+					                    response.addCookie(loginCook);
+					                    response.addCookie(loginCook2);
+					                    response.sendRedirect("admin.jsp");
 				}
 				else {
                                         String pattern = "MM";
@@ -72,11 +83,18 @@ public class Login extends HttpServlet{
 			else { 
 			   RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
                request.setAttribute("failure", "Login Failed");
+               con.close();
 			   rd.forward(request, response);
 			}
 		    con.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			   try {
+				con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
                System.out.println(e.toString());
                RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
                request.setAttribute("failure", "Login Failed");

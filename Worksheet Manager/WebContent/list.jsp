@@ -36,9 +36,9 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String fquery="select * from userdata where moncreate<="+showMonth+" and usertype='user'";
+    String fquery="select * from userdata where moncreate<="+showMonth+" and usertype='user' and validity=1";
     String squery="select distinct userstatus.name, userstatus.psno, userdata.email from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+showMonth+" and status='Submitted'";
-    String tquery="select distinct userdata.name, userdata.psno, userdata.email from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
+    String tquery="select distinct userdata.name, userdata.psno, userdata.email from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and validity=1 and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
 	ResultSet res=null;
     if(calling.equals("total"))
     res=statementt.executeQuery(fquery);

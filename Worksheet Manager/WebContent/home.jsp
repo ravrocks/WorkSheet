@@ -44,7 +44,7 @@
 										<input type="text" name="psno" id="username" tabindex="1" class="form-control" placeholder="PS no." required>
 									</div>
 									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" required>
+										<input type="password" name="password" id="password" tabindex="2" class="form-control" autocomplete="off" placeholder="Password" required>
 									</div>
 									
 									<div class="form-group">
@@ -65,28 +65,31 @@
 										<input type="text" name="psno" id="psno" tabindex="1" class="form-control" placeholder="PS no." required onkeypress='validate(event)'>
 									</div>
 									<div class="form-group">
-										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" required>
+										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" autocomplete="off" required>
+									</div>
+									<div class="form-group">
+										<span class="error" id="errorEmail" style="color:red"></span>
 									</div>
 									<div class="form-group">
 										<input type="text" name="designation" id="designation" tabindex="1" class="form-control" placeholder="Designation" required>
 									</div>
 									 <div class="form-group">
 									 	<select name="domain" id="domain" tabindex="1" class="form-control" required>
-									 	    <option value="" disabled selected>Select domain</option>
-										    <option value="Communication">Communication</option>
+									 	    <option value="" disabled>Select domain</option>
+										    <option value="Communication" selected>Communication</option>
 										    <option value="Cyber Security">Cyber Security</option>
 										    <option value="Smart City">Smart City</option>
 										    <option value="TIC">TIC</option>
 										</select>
 									 </div>
 									<div class="form-group">
-										<input type="password" name="password" id="pass" tabindex="2" class="form-control" placeholder="Password" >
+										<input type="password" name="password" id="pass" tabindex="2" class="form-control" autocomplete="off" placeholder="Password" >
 									</div>
 									<div class="form-group">
-										<input type="password" name="confirmpass" id="confpass" tabindex="2" class="form-control" placeholder="Confirm Password" >
+										<input type="password" name="confirmpass" id="confpass" tabindex="2" class="form-control" autocomplete="off" placeholder="Confirm Password" >
 									</div>
 									<div class="form-group">
-										<span class="error" style="color:red"></span><br />
+										<span class="error" id="eerror" style="color:red"></span><br />
 									</div>
 									<div class="form-group">
 										<div class="row">
@@ -108,7 +111,6 @@
 
 function validate(evt) {
 	  var theEvent = evt || window.event;
-
 	  // Handle paste
 	  if (theEvent.type === 'paste') {
 	      key = event.clipboardData.getData('text/plain');
@@ -145,11 +147,6 @@ $(function() {
 var allowsubmit = false;
 $(function(){
     
-    /*$('#login-submit').on("click",function() {
-    // your stuff
-    showError();
-    }); */
-    
 	$('#confpass').keyup(function(e){
 		//get values 
 		var pass = $('#pass').val();
@@ -157,24 +154,35 @@ $(function(){
 		
 		//check the strings
 		if(pass == confpass){
-			$('.error').text('');
+			$('#eerror').text('');
 			allowsubmit = true;
 		}else{
-			$('.error').text('Password not matching');
+			$('#eerror').text('Password not matching');
 			allowsubmit = false;
 		}
 	});
 	
-	
+	var allowEmx=false;
 	$('#register-form').submit(function(){
 	
 		var pass = $('#pass').val();
 		var confpass = $('#confpass').val();
-
+		var emailContent = $('#email').val().toLowerCase();
+		
+    	var chck=/(.*?)@lntecc.com/;
+    	if (chck.test(emailContent)){
+    		$('#errorEmail').text('');
+    		allowEmx = true;
+    		 }
+    		 else{
+    			 
+    			 $('#errorEmail').text('Enter your work email only.');
+    			 allowEmx = false;
+    		 }
 		if(pass == confpass){
 			allowsubmit = true;
 		}
-		if(allowsubmit){
+		if(allowsubmit && allowEmx){
 			return true;
 		}else{
 			return false;
@@ -204,7 +212,7 @@ $(function(){
     {
         Swal.fire({
         title: 'Success!',
-        text: 'Registration is successful.',
+        text: 'Registration is successful. Please wait for admin approval.',
         type: 'success',
         confirmButtonText: 'OK'
         });
