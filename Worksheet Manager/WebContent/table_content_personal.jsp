@@ -109,8 +109,15 @@
         
         function removeRow(ix)
         {
-            var row = document.getElementById(ix+"_row");
-            row.parentNode.removeChild(row);
+        	var td = event.target.parentNode; 
+            var tr = td.parentNode; // the row to be removed
+            tr.parentNode.removeChild(tr);
+        }
+        function removedRow()
+        {
+        	var td = event.target.parentNode; 
+            var tr = td.parentNode; // the row to be removed
+            tr.parentNode.removeChild(tr);
         }
 </script>
 <!-- Stylesheets -->
@@ -194,6 +201,7 @@
                       ResultSet rsss=ssstate.executeQuery();
                       HashSet<String> zzset=new HashSet<String>();
                       int fcount=0;
+                      String exdate="";
                       while(rsss.next())
                       {
                     	  String sDate1=rsss.getString("date");
@@ -205,7 +213,10 @@
                     	  <tr id="<%=printdate+"_row"%>">
                     	  <td align="center" class="col-md-1">
                               <%
-                              out.print(printdate);
+                              if(exdate.equalsIgnoreCase(printdate))
+                                out.print("");
+                              else
+                            	out.print(printdate);
                               String stertingz=rsss.getString("fromtime");
                               String endingz=rsss.getString("totime");
                               %>
@@ -264,13 +275,27 @@
                             </td>
                             <td class="col-md-1"> 
                                 <button id="<%=printdate%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                                <button id="<%=printdate+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <%
+                                if(exdate.equalsIgnoreCase(printdate))
+                                {
+                                %>
+                                <button id="<%=printdate+"_row"%>" onclick="removedRow()" type="button" class="btn btn-danger" style="margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <%
+                                }
+                                else
+                                {
+                                	 %>
+                                <button id="<%=printdate+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display:none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                     <%	
+                                }
+                                %>
                             </td>
                             </tr>
                            
                     	  <%
                     	  zzset.add(printdate);
                     	  fcount++;
+                    	  exdate=printdate;
                       }
 					  rsss.close();
                  	  conn.close();

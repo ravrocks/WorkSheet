@@ -92,7 +92,7 @@ public class DataFeed2 extends HttpServlet{
                    
                    if(agroup.length()>1&&alist.length()>1&&starttime.length()>1&&endtime.length()>1&&date!=null&&ptype.length()>1&&plist.length()>1&&userPsno!=null&&status!=true)
                        {
-                	   PreparedStatement prepS_del=con.prepareStatement("delete from details where psno="+Integer.parseInt(userPsno)+" and domain like '"+domainz+"' and subfunction like '"+plist+"' and project like '"+ptype+"' and activitygroup like '"+agroup+"' and activity like '"+alist+"' and date like '"+modif_date(date)+"'");
+                	   PreparedStatement prepS_del=con.prepareStatement("delete from details where psno="+Integer.parseInt(userPsno)+" and domain like '"+domainz+"' and date like '"+modif_date(date)+"'");
                        prepS_del.executeUpdate();
                            prepS.setInt(1, Integer.parseInt(userPsno));
                            prepS.setString(2, domainz);
