@@ -26,10 +26,21 @@ public class LoadTimesheet extends HttpServlet{
          JsonParser jp = new JsonParser();
          JsonElement je = jp.parse(setting_time_month);
          String selection=WordUtils.capitalizeFully(je.getAsString());
-         System.out.println(selection);
-         if(selection.equalsIgnoreCase("september"))
- 			{
-        	 Connection conn=new getConnection().getConnection();
+         //System.out.println(selection);
+         
+         Connection conn=new getConnection().getConnection();
+         PreparedStatement stmnt_for_month=conn.prepareStatement("select * from allowmonth");
+         ResultSet rss_for_month=stmnt_for_month.executeQuery();
+         rss_for_month.next();
+         String got_month=rss_for_month.getString(2);
+         rss_for_month.close();
+         stmnt_for_month.close();
+         
+         int got_monthz=returnMonnum(got_month);
+         int selected_monthz=returnMonnum(selection);
+         
+         if((selected_monthz==got_monthz)||(selected_monthz==got_monthz-1))
+ 			{     	 
         	 PreparedStatement ssttmm=conn.prepareStatement("select count(psno) from userstatus where psno="+Integer.parseInt(userPsno)+" and month="+returnMonnum(selection));
         	 ResultSet rrss=ssttmm.executeQuery();
         	 rrss.next();
@@ -51,7 +62,7 @@ public class LoadTimesheet extends HttpServlet{
  			}
          else
  			{
- 			
+ 			   conn.close();
  			}
          }
          catch(Exception e)

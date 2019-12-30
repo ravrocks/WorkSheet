@@ -55,6 +55,7 @@ public class DataFeed2 extends HttpServlet{
             {
           	  e.printStackTrace();
             }
+           JsonElement joshObj=null;
 		   try {
                    boolean status=false;
                    getConnection conoff=new getConnection();
@@ -76,9 +77,9 @@ public class DataFeed2 extends HttpServlet{
                    JsonArray jaaray=je.getAsJsonArray();
                    for(int i=0;i<jaaray.size();i++)
                    {
-                   JsonElement joshObj = jaaray.get(i);
+                   joshObj = jaaray.get(i);
                    org.json.JSONObject off=new org.json.JSONObject (joshObj.toString());
-                   System.out.println(joshObj.toString());
+                   
                    String agroup=off.get("agroup").toString().trim();
                    String alist=off.get("alist").toString().trim();
                    String starttime=off.get("starttime").toString().trim();
@@ -107,9 +108,8 @@ public class DataFeed2 extends HttpServlet{
                            prepS.setString(11, remarks);
                            prepS.setInt(12, Integer.parseInt(getMonth(date)));
                            prepS.setInt(13, Integer.parseInt(getYear(date)));
-                           
                            prepS.addBatch();
-                           System.out.println("Good");
+                           //System.out.println("Good");
                        }
                    //System.out.println(agroup+alist+starttime+endtime);
                    }
@@ -126,6 +126,7 @@ public class DataFeed2 extends HttpServlet{
                  }
              catch (Exception e) 
               {
+            	 System.out.println(joshObj.toString());
                  e.printStackTrace();
               } 
 		  }

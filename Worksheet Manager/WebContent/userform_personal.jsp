@@ -205,6 +205,7 @@ function sendtoWorking()
                     }
                 var current_row=$(this);
                 var datte=current_row.find("td:eq(0)").text();
+                
                 if(datte.length<2)
                     datte=last_dated;
                 else
@@ -248,13 +249,14 @@ function validateHhMm(inputField) {
             {
                 inputField.style.backgroundColor = '#bfa';
                 document.getElementById("finalsubmit").disabled=false;
+                document.getElementById("save").disabled=false;
             }
             else
             {
                 inputField.style.backgroundColor = '#fba';
                 document.getElementById("finalsubmit").disabled=true;
+                document.getElementById("save").disabled=true;
             }
-        
             return areValid;
         }
 function showError(txxt)

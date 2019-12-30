@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>List of users</title>
+        <title>Complete Details</title>
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css"/>

@@ -55,6 +55,7 @@ public class DataFeed extends HttpServlet{
             {
           	  e.printStackTrace();
             }
+            JsonElement joshObj=null;
 		   try {
                    boolean status=false;
                    getConnection conoff=new getConnection();
@@ -74,16 +75,18 @@ public class DataFeed extends HttpServlet{
                    JsonParser jp = new JsonParser();
                    JsonElement je = jp.parse(datez);
                    JsonArray jaaray=je.getAsJsonArray();
+                   
                    for(int i=0;i<jaaray.size();i++)
                    {
-                   JsonElement joshObj = jaaray.get(i);
+                    joshObj= jaaray.get(i);
                    org.json.JSONObject off=new org.json.JSONObject (joshObj.toString());
-                   System.out.println(joshObj.toString());
+                   
                    String agroup=off.get("agroup").toString().trim();
                    String alist=off.get("alist").toString().trim();
                    String starttime=off.get("starttime").toString().trim();
                    String endtime=off.get("endtime").toString().trim();
                    String date=off.get("date").toString().trim();
+                   //System.out.println(date);
                    String ptype=off.get("ptype").toString().trim();
                    String plist=off.get("plist").toString().trim();
                    String remarks=off.getString("remarks").toString().trim();
@@ -109,7 +112,7 @@ public class DataFeed extends HttpServlet{
                            prepS.setInt(13, Integer.parseInt(getYear(date)));
                            
                            prepS.addBatch();
-                           System.out.println("Good");
+                           //System.out.println("Good");
                        }
                    //System.out.println(agroup+alist+starttime+endtime);
                    }
@@ -126,6 +129,7 @@ public class DataFeed extends HttpServlet{
                  }
              catch (Exception e) 
               {
+            	 System.out.println(joshObj.toString());
                  e.printStackTrace();
               } 
 		  }
@@ -160,7 +164,7 @@ public class DataFeed extends HttpServlet{
      
      private String getYear(String zxcv)
      {
-         String pattern = "YYYY";
+         String pattern = "yyyy";
          SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
          String year_created=simpleDateFormat.format(Date.parse(zxcv));
          if(year_created!=null)
@@ -171,7 +175,7 @@ public class DataFeed extends HttpServlet{
      
      private String modif_date(String x)
      {
-         String pattern = "YYYY-MM-dd";
+         String pattern = "yyyy-MM-dd";
          SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
          String datez=simpleDateFormat.format(Date.parse(x));
          if(datez!=null)

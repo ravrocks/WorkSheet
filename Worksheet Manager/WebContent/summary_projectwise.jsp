@@ -54,15 +54,13 @@ ResultSet rs2 = null;
 try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql="Select * from subfunction where extra=?";
-String sql1="Select distinct userstatus.name from details,userstatus where details.subfunction=? and details.project=? and userstatus.psno = details.psno and details.month="+showMonth+" and userstatus.status like 'Submitted'";
+String sql="Select * from subfunction where "+(char)34+"desc"+(char)34+" NOT LIKE 'Leave/Holiday'";
+String sql1="Select distinct userstatus.name from details,userstatus where details.subfunction=? and details.project=? and userstatus.psno = details.psno and details.month="+showMonth+" and userstatus.status like 'Submitted' and hrs!=0";
 String sql2="Select sum(hrs) from details,userstatus where subfunction=? and project=? and details.month="+showMonth+" and userstatus.psno=details.psno and userstatus.status like 'Submitted'";
-//String sql ="select activitygroup,sum(hrs) from details1 where month="+showMonth+" and projecttype=? and project=? group by activitygroup ";
-//String sql1 ="select distinct userdata.name from details1,userdata where details1.activitygroup=? and details1.projecttype=? and details1.project=? and userdata.psno = details1.psno and month="+showMonth+" ";
 PreparedStatement ps = connection.prepareStatement(sql); 
 PreparedStatement ps1 = connection.prepareStatement(sql1); 
 PreparedStatement ps2 = connection.prepareStatement(sql2); 
-ps.setString(1,"ntic");
+//ps.setString(1,"ntic");
 rs=ps.executeQuery();
 while(rs.next()){
 	String subfun = rs.getString(2);

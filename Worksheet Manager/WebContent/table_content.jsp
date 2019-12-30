@@ -53,6 +53,17 @@
                 $("#detailz1").html("Page " + num); 
                 paging_display(num)
                });
+              
+              $('textarea').keyup(function() {
+              	  var textlen = 250 - $(this).val().length;
+              	  if(textlen>0)
+              		  $(this).next().css("visibility","hidden");
+              	  else
+              		{
+              		$(this).next().css("visibility","visible");
+              		$(this).val(($(this).val()).substring(0, 250+textlen));
+              		}
+              	}); 
         });
         
         function paging_display(numb)
@@ -258,7 +269,10 @@
                             		%>
                         		</datalist>
                             </td>
-                            <td class="col-md-4" style="width:150px"><textarea class="form-control" id="remarking" rows=4></textarea></td>
+                            <td class="col-md-4" style="width:150px">
+                            <textarea class="form-control" id="remarking" rows=4></textarea>
+                            <span id="rchars" style="visibility: hidden;color: red">Maximum 250 characters</span>
+                            </td>
                             <td class="col-md-1"> 
                                 <button id="<%=formated_date%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
                                 <button id="<%=formated_date+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>

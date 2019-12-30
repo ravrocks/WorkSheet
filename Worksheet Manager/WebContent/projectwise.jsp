@@ -83,7 +83,7 @@ popupWindow = window.open(url,'popUpWindow','height=300,width=700,left=50,top=50
 try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql ="select * from project_list";
+String sql ="select * from project_list where listing NOT LIKE 'Leave/Holiday'";
 String sql1 = "select sum(hrs) from details where exists (select userstatus.psno from userstatus where userstatus.psno=details.psno and userstatus.status like 'Submitted') and project=? and month="+showMonth+"";
 PreparedStatement ps1 = connection.prepareStatement(sql1);
 rs = statement.executeQuery(sql);
@@ -119,7 +119,6 @@ e.printStackTrace();
 }
 %>
 </table>
-</div>
 </div>
 
 </body>

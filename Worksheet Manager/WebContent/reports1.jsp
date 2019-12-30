@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>List of users</title>
+        <title>Summary on Sub-function</title>
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css"/>
@@ -32,7 +32,7 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String sql ="select subfunction,sum(hrs) from details where month="+Integer.parseInt(showMonth)+" and psno=? group by subfunction";
+    String sql ="select subfunction,sum(hrs) from details where month="+Integer.parseInt(showMonth)+" and psno=? and subfunction NOT LIKE 'Leave/Holiday' group by subfunction";
     String total="select sum(hrs) from details where month="+showMonth+" and psno=?";
 	//rs = statement.executeQuery(sql);
 	PreparedStatement ps = connection.prepareStatement(sql); 
@@ -58,10 +58,7 @@
             %>
     <tr>
 		<td><%=rs.getString("subfunction") %></td>
-		<% String hrs=rs.getString(2); 
-		//if(act.equals("Holiday"))
-			   // hrs="0";
-		%>
+		<% String hrs=rs.getString(2); %>
 		<td><%out.print(hrs); %></td>
     </tr>
     <%
@@ -90,7 +87,8 @@
 <script>
     $(document).ready( function () {
     $('#example').DataTable({
-        "info": false 
+        "info": false, 
+        "bSort" : false
     });
 } );
 </script>

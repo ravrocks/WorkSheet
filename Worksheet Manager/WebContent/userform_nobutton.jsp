@@ -254,11 +254,13 @@
             {
                 inputField.style.backgroundColor = '#bfa';
                 document.getElementById("finalsubmit").disabled=false;
+                document.getElementById("save").disabled=false;
             }
             else
             {
                 inputField.style.backgroundColor = '#fba';
                 document.getElementById("finalsubmit").disabled=true;
+                document.getElementById("save").disabled=true;
             }
         
             return areValid;

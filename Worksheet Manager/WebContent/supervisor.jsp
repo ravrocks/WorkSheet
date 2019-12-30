@@ -83,7 +83,7 @@ show_month=Calendar.getInstance().get(Calendar.MONTH)+1;
 else    
 show_month=Integer.parseInt(mx);
 
-String sql ="select distinct userstatus.name, details.psno from userstatus, details  where userstatus.psno = details.psno and details.month="+show_month+" and userstatus.status like 'Submitted';";
+String sql ="select distinct userstatus.name, details.psno from userstatus, details  where userstatus.psno = details.psno and userstatus.month="+show_month+" and userstatus.status like 'Submitted';";
 rs = statement.executeQuery(sql);
 while(rs.next()){
 %>
@@ -93,13 +93,16 @@ while(rs.next()){
 <td><%=rs.getString("psno") %></td>
 <td>
 <a onclick="basicPopup(this.href);return false" href="reports.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">Detailed Report</a>&nbsp;&nbsp;
-<a onclick="basicPopup(this.href);return false" href="reports1.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">Summary</a>
+<a onclick="basicPopup(this.href);return false" href="reports1.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">Summary</a>&nbsp;&nbsp;
+<a onclick="basicPopup(this.href);return false" href="reports2.jsp?psno=<%=rs.getString("psno")%>&name=<%=rs.getString("name")%>">Project Report</a>
 </td>
 </tr>
 </tbody>
 <%
 }
 connection.close();
+statement.close();
+rs.close();
 } 
 catch (Exception e) {
 e.printStackTrace();

@@ -27,7 +27,8 @@
     String userName = null,userPsno=null,userTIC=null,viewing_month=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
-    for(Cookie cookie : cookies){
+    for(Cookie cookie : cookies)
+    {
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
 	if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
 	if(cookie.getName().equals("timesheet_load_month")) viewing_month = cookie.getValue();
@@ -56,8 +57,20 @@
                 $("#detailz1").html("Page " + num); 
                 paging_display(num)
                });
+                
+              //$('.clockpicker').clockpicker();
+              $('textarea').keyup(function() {
+              	  var textlen = 250 - $(this).val().length;
+              	  if(textlen>0)
+              		  $(this).next().css("visibility","hidden");
+              	  else
+              		{
+              		$(this).next().css("visibility","visible");
+              		$(this).val(($(this).val()).substring(0, 250+textlen));
+              		}
+              	});    
         });
-        
+    
         function paging_display(numb)
         {
             var complete_table=document.getElementById("show_table");
@@ -99,6 +112,19 @@
             x.appendChild(t);
             clone.replaceChild(x,clone.childNodes[1]);
             //alert(clone.childNodes.length);
+            //alert(clone.childNodes[13].innerHTML);
+            //setting remarks as blank
+            clone.childNodes[13].getElementsByTagName("textarea")[0].innerHTML="";
+            //setting activity as blank
+            clone.childNodes[11].getElementsByTagName("input")[0].value="";
+          	//setting activity group as blank
+            clone.childNodes[9].getElementsByTagName("input")[0].value="";
+            //setting subfunction as blank
+            clone.childNodes[7].getElementsByTagName("input")[0].value="";
+          	//setting project as blank
+            clone.childNodes[5].getElementsByTagName("input")[0].value="";
+          	
+            //console.log(clone.childNodes[5].getElementsByTagName("input")[0].value);
             z=clone.childNodes[15];
             zz=z.childNodes[3];
             zz.style.display="block";
@@ -206,15 +232,15 @@
                       {
                     	  String sDate1=rsss.getString("date");
                           Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1); 
-                  		  String pattern = "EEE MMM dd YYYY";
+                  		  String pattern = "EEE MMM dd yyyy";
                           SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                           String printdate=simpleDateFormat.format(date1);
                     	  %>
                     	  <tr id="<%=printdate+"_row"%>">
-                    	  <td align="center" class="col-md-1">
+                    	  <td align="center" class="col-md-1" style="color: #BF8238;font-family: Georgia, serif;font-size:15px">
                               <%
                               if(exdate.equalsIgnoreCase(printdate))
-                                out.print("");
+                                out.print("<span style='color:#fff;opacity:.1'>"+printdate+"</span>");
                               else
                             	out.print(printdate);
                               String stertingz=rsss.getString("fromtime");
@@ -271,7 +297,9 @@
                         	</datalist>
                             </td>
                             <td>
-                            <textarea class="form-control" id="remarking" rows=4><%=rsss.getString("remarks")%></textarea>
+                            	<textarea class="form-control" id="remarking" rows=4><%=rsss.getString("remarks")%>
+                            	</textarea>
+                            	<span id="rchars" style="visibility: hidden;color: red">Maximum 250 characters</span>
                             </td>
                             <td class="col-md-1"> 
                                 <button id="<%=printdate%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
@@ -285,7 +313,7 @@
                                 else
                                 {
                                 	 %>
-                                <button id="<%=printdate+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display:none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=printdate+"_row"%>" onclick="removedRow(this.id)" type="button" class="btn btn-danger" style="display:none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                                      <%	
                                 }
                                 %>
@@ -316,14 +344,14 @@
                             </td>
                             <td class="col-md-2">
                                 <div id="<%=formated_date+"_startc"%>"  style="width:100px" class="input-group" data-placement="right" data-align="top" data-autoclose="true">
-                                    <input style="width:100%;" type="text" class="form-control" value="09:00" onchange="validateHhMm(this)">
+                                <input style="width:100%;" type="text" class="form-control" value="09:00" onchange="validateHhMm(this)">
                                 <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-time" style="color:#197724">
                                 </span>
                                 </span>
                                 </div>
                                 <!-- End Time details -->
-                                <div id="<%=formated_date+"_endc"%>" style="width:100px;margin-top:15px" class="input-group" data-placement="right" data-align="top" data-autoclose="true">
+                                <div id="<%=formated_date+"_endc"%>" style="width:100px;margin-top:15px" class="input-group" data-placement="right" data-align="top" data-autoclose="true" >
                                 <input style="width:100%;" type="text" class="form-control" value="18:00" onchange="validateHhMm(this)">
                                 <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-time" style="color:#970002">
@@ -363,10 +391,14 @@
                             		%>
                         		</datalist>
                             </td>
-                            <td class="col-md-4" style="width:150px"><textarea class="form-control" id="remarking" rows=4></textarea></td>
+                            <td class="col-md-4" style="width:150px">
+                            	<textarea class="form-control" id="remarking" rows=4>
+                            	</textarea>
+                            	<span id="rchars" style="visibility: hidden;color: red">Maximum 250 characters</span>
+                            </td>
                             <td class="col-md-1"> 
                                 <button id="<%=formated_date%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                                <button id="<%=formated_date+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=formated_date+"_row"%>" onclick="removedRow()" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                             </td>
                           </tr>
                           <%

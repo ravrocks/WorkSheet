@@ -53,7 +53,7 @@ ResultSet rs2 = null;
 try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql="Select * from subfunction where extra=?";
+String sql="Select * from subfunction where "+(char)34+"desc"+(char)34+" not like 'Leave/Holiday'";
 String sql1="Select distinct userstatus.name from details,userstatus where details.subfunction=? and details.project=? and userstatus.psno = details.psno and details.month="+showMonth+" and userstatus.status like 'Submitted'";
 String sql2="Select sum(hrs) from details,userstatus where subfunction=? and project=? and details.month="+showMonth+" and userstatus.psno=details.psno and userstatus.status like 'Submitted'";
 //String sql ="select activitygroup,sum(hrs) from details1 where month="+showMonth+" and projecttype=? and project=? group by activitygroup ";
@@ -61,7 +61,7 @@ String sql2="Select sum(hrs) from details,userstatus where subfunction=? and pro
 PreparedStatement ps = connection.prepareStatement(sql); 
 PreparedStatement ps1 = connection.prepareStatement(sql1); 
 PreparedStatement ps2 = connection.prepareStatement(sql2); 
-ps.setString(1,"tic");
+//ps.setString(1,"tic");
 rs=ps.executeQuery();
 while(rs.next()){
 	String subfun = rs.getString(2);
