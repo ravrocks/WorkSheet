@@ -123,7 +123,10 @@ function tasting(txt){
                 if(txt==element)
                     monint=i;
             });
-            var date = new Date(Date.UTC(2019, monint, 1));
+            let current_year=2020;
+            if(monint==11)
+            	current_year=2019;
+            var date = new Date(Date.UTC(current_year, monint, 1));
             var days = [];
             while (month[date.getMonth()] === txt) {
             days.push(new Date(date));

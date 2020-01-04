@@ -39,7 +39,7 @@ public class LoadTimesheet extends HttpServlet{
          int got_monthz=returnMonnum(got_month);
          int selected_monthz=returnMonnum(selection);
          
-         if((selected_monthz==got_monthz)||(selected_monthz==got_monthz-1))
+         if((selected_monthz==got_monthz)||(selected_monthz==got_monthz-1)||(selected_monthz==12))
  			{     	 
         	 PreparedStatement ssttmm=conn.prepareStatement("select count(psno) from userstatus where psno="+Integer.parseInt(userPsno)+" and month="+returnMonnum(selection));
         	 ResultSet rrss=ssttmm.executeQuery();

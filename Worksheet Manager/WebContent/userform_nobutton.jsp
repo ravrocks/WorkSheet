@@ -22,7 +22,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tablez</title>
+    <title>My WorkSheet</title>
     <!-- Javascripts -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery-clockpicker.js"></script>
@@ -129,7 +129,10 @@
                 if(txt==element)
                     monint=i;
             });
-            var date = new Date(Date.UTC(2019, monint, 1));
+            let current_year=2020;
+            if(monint==11)
+            	current_year=2019;
+            var date = new Date(Date.UTC(current_year, monint, 1));
             var days = [];
             while (month[date.getMonth()] === txt) {
             days.push(new Date(date));
