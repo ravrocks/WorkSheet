@@ -10,12 +10,11 @@
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
-		if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
+	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
         if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
-    	}
+    }
     }
     if(userName == null) response.sendRedirect("home.jsp");
-    if(showMonth == null) response.sendRedirect("logout.jsp");
     
     String total="4",filled="2",pending = "2";
     //code for populating numbers
@@ -25,9 +24,9 @@
     try{
     Connection connectionn = new getConnection().getConnection();
     Statement statementt=connectionn.createStatement();
-    String fquery="select count(*) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user' and validity=1";
+    String fquery="select count(*) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'";
     String squery="select count(distinct userstatus.name) from userstatus where userstatus.month="+Integer.parseInt(showMonth)+" and status='Submitted'";
-    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and validity=1 and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
+    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
     ResultSet ress=statementt.executeQuery(fquery);
     ress.next();
     total=ress.getString(1);
@@ -113,7 +112,7 @@
                 </div>
                 <div class="col-sm-6 col-md-3 column">
                     
-                    <p><span class="count replay"><%out.print(total);%></span></p>
+                    <p><span class="count"><%out.print(total);%></span></p>
                     <h2><a style="color:black" onclick="basicPopup(this.href);return false" href="list.jsp?&type=total"> Total Users</a></h2>
                 </div>
                 <div class="col-sm-6 col-md-3 column">
@@ -135,18 +134,21 @@
                     <ul class="nav nav-tabs card-header-tabs" role="tablist">
                         <li class="nav-item"><a class="nav-link active" href="#item-1-1" id="item-1-1-tab" data-toggle="tab" role="tab" aria-controls="item-1-1" aria-selected="true">Individual Reports</a></li>
                         <li class="nav-item"><a class="nav-link" href="#item-1-2" id="item-1-2-tab" data-toggle="tab" role="tab" aria-controls="item-1-2" aria-selected="false">Project Wise Reports</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#item-1-3" id="item-1-3-tab" data-toggle="tab" role="tab" aria-controls="item-1-3" aria-selected="false">Consolidated Report</a></li>
                     </ul>
                 </div>
-         <style>a:hover{font-weight:normal;}</style>
+         
             <div class="card-body" >
                 <div id="nav-tabContent" class="tab-content">
-                <div style="color: #000;text-align: left" id="item-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="item-1-1-tab">
-                    <jsp:include page="supervisor.jsp" />
-                </div>
-                <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
-                <jsp:include page="projectwise.jsp" />
-                </div>
-        
+	                <div style="color: #000;text-align: left" id="item-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="item-1-1-tab">
+	                    <jsp:include page="supervisor.jsp" />
+	                </div>
+	                <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
+	                	<jsp:include page="projectwise.jsp" />
+	                </div>
+	                <div id="item-1-3" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-3-tab">
+	                	<jsp:include page="allreport.jsp" />
+	                </div>
                 </div>
             </div>
      </div>
