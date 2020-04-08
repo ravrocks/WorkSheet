@@ -3,13 +3,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%
-    String userName = null,userPsno=null, showMonth=null;
+    String userName = null,userPsno=null, showMonth=null, showYear=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
         if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
-        if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();        
+        if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
+        if(cookie.getName().equals("show_year")) showYear = cookie.getValue(); 
     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
@@ -83,7 +84,7 @@ show_month=Calendar.getInstance().get(Calendar.MONTH)+1;
 else    
 show_month=Integer.parseInt(mx);
 
-String sql ="select distinct userstatus.name, details.psno from userstatus, details  where userstatus.psno = details.psno and userstatus.month="+show_month+" and userstatus.status like 'Submitted';";
+String sql ="select distinct userstatus.name, details.psno from userstatus, details  where userstatus.psno = details.psno and userstatus.year like '"+showYear+"' and userstatus.month="+show_month+" and userstatus.status like 'Submitted';";
 rs = statement.executeQuery(sql);
 while(rs.next()){
 %>

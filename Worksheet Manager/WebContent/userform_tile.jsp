@@ -179,19 +179,8 @@ function loadNewTimesheet()
   title: 'Month selector',
   input: 'select',
   inputOptions: {
-    january: 'January',
-    february: 'February',
-    march: 'March',
-    april: 'April',
-    may: 'May',
-    june: 'June',
-    july: 'July',
-    august: 'August',
-    september: 'September',
-    october:'October',
-    november:'November',
-    december:'December'
-  },
+    january: 'January',february: 'February',march: 'March',april: 'April',may: 'May',june: 'June',july: 'July',august: 'August',september: 'September',october:'October',november:'November',december:'December'
+    },
   inputPlaceholder: 'Select a Month',
   showCancelButton: true,
   inputValidator: (value) => {
@@ -207,11 +196,11 @@ function loadNewTimesheet()
                     	showMError("Timesheet already exits for the selected month.");
                     else
                       showMError("Timesheet can be filled for current month only.");
-                    }
-                });
-    	})
-  	}
-})
+                    	}
+                	});
+    			})
+  			}
+		})
     })();
 }
 

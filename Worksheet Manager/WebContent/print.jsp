@@ -13,29 +13,29 @@
         <script type="text/javascript" src="assets/js/datatables.min.js"></script>
     </head>
     <%
-    String userName = null,showMonth=null,userPsno=null;
+    String userName = null,userPsno=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null)
     {
     for(Cookie cookie : cookies)
     	{
-	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
-	if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
-    if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
+		if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
+		if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
     	}
     }
-    if(userName == null) response.sendRedirect("home.jsp");
+    if(userName == null||userPsno==null) response.sendRedirect("home.jsp");
     
     String name = userName; 
     String psno = userPsno;
     int monthx= Integer.parseInt(request.getParameter("for_month"));
+    String yearx=request.getParameter("for_year");
     getConnection oye=new getConnection();
     ResultSet rs=null;
     ResultSet rs1=null;
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String sql ="select subfunction,project,activitygroup,activity,date,hrs,remarks,fromtime from details where month="+monthx+" and psno=? order by date asc";
+    String sql ="select subfunction,project,activitygroup,activity,date,hrs,remarks,fromtime from details where month="+monthx+" and psno=? and date like '"+yearx+"%' order by date asc";
     String total="select sum(hrs) from details where month="+monthx+" and psno=?";
 	//rs = statement.executeQuery(sql);
 	PreparedStatement ps = connection.prepareStatement(sql); 

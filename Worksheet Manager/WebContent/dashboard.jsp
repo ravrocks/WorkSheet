@@ -6,13 +6,14 @@
 <html>
 <%
     String userName = null;
-    String showMonth=null;
+    String showMonth=null,showYear=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
         if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
-    }
+        if(cookie.getName().equals("show_year")) showYear = cookie.getValue();
+     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
     
@@ -25,8 +26,8 @@
     Connection connectionn = new getConnection().getConnection();
     Statement statementt=connectionn.createStatement();
     String fquery="select count(*) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'";
-    String squery="select count(distinct userstatus.name) from userstatus where userstatus.month="+Integer.parseInt(showMonth)+" and status='Submitted'";
-    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
+    String squery="select count(distinct userstatus.name) from userstatus where userstatus.month="+Integer.parseInt(showMonth)+" and status='Submitted' and year='"+showYear+"'";
+    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted' and year='"+showYear+"')";
     ResultSet ress=statementt.executeQuery(fquery);
     ress.next();
     total=ress.getString(1);
@@ -115,8 +116,15 @@
 							<a class="dropdown-item" role="presentation" >November</a>
 							<a class="dropdown-item" role="presentation" >December</a>
 						</div>
+					</div>
+					<div class="dropdown" style="margin-top:5px">
+					 <button id="yearButton" class="btn-lg btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >Year</button>
+					 	<div id="yearMenu" class="dropdown-menu " role="menu" >
+					 		<a class="dropdown-item" role="presentation" >2019</a>
+					 		<a class="dropdown-item" role="presentation" >2020</a>
+					 	</div>
                     </div>       
-                    <h2 style="margin-top:10px">Select Month </h2>
+                    <h2 style="margin-top:10px">Select Duration</h2>
                 </div>
                 <div class="col-sm-6 col-md-3 column">
                     
@@ -163,19 +171,8 @@
     </section>
     <script type="text/javascript">
         
-        var month = new Array();
-            month[0] = "January";
-            month[1] = "February";
-            month[2] = "March";
-            month[3] = "April";
-            month[4] = "May";
-            month[5] = "June";
-            month[6] = "July";
-            month[7] = "August";
-            month[8] = "September";
-            month[9] = "October";
-            month[10] = "November";
-            month[11] = "December";
+    var month = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+    var setyear=null,setmonth=null;
             
          function getCookie(cname) {
                 var name = cname + "=";
@@ -194,10 +191,13 @@
             }
         //Month initializing script
         $( document ).ready(function() {
-        var setmonth = getCookie("show_month");
+        setmonth = getCookie("show_month");
         if (setmonth != "") {
             $("#monthButton").text(month[setmonth-1]);
         }
+        setyear= getCookie("show_year");
+        if(setyear!="")
+        	$("#yearButton").text(setyear);
         });
         
         $("#monthMenu a").click(function(e){
@@ -214,13 +214,34 @@
             $.ajax({
                 type: "POST",
                 url: "MonthSet",
-                data: "&set_month=" + monint,
+                data: "&set_month="+monint+"&set_year="+setyear,
                 success : function(responseText) {
                     location.reload(false);
                 }
             });
         });
-      
+        
+        $("#yearMenu a").click(function(e){
+            e.preventDefault(); // cancel the link behaviour
+            var txt = $(this).text();
+            $("#yearButton").text(txt);
+            let monint = 0;
+            var txt2=document.getElementById("monthButton").innerHTML;
+            month.forEach(function(element,i){
+                if(txt2==element)
+                    monint=i;
+            });
+            monint+=1;
+            $.ajax({
+                type: "POST",
+                url: "MonthSet",
+                data: "&set_month="+monint+"&set_year="+ txt,
+                success : function(responseText) {
+                    location.reload(false);
+                }
+            });
+        });
+        
       function basicPopup(url) {
 popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');
 	}

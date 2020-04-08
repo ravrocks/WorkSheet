@@ -9,14 +9,15 @@
 <%@ page import="java.util.concurrent.*" %>
 
 <%
-String userName = null,userPsno=null, showMonth=null;
+String userName = null,userPsno=null, showMonth=null,showYear=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
     if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
     if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
-    
+    if(cookie.getName().equals("show_year")) showYear = cookie.getValue(); 
+
     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
@@ -80,7 +81,7 @@ Map<Object,Object> map = null;
 CopyOnWriteArrayList<Map<Object,Object>> list = new CopyOnWriteArrayList<Map<Object,Object>>();
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql1 = "select details.project,details.subfunction,details.hrs from details where exists (select userstatus.psno from userstatus where userstatus.psno=details.psno and userstatus.status like 'Submitted') and month="+showMonth+" and details.project not like 'Leave/Holiday' ORDER by details.project";
+String sql1 = "select details.project,details.subfunction,details.hrs from details where exists (select userstatus.psno from userstatus where userstatus.psno=details.psno and userstatus.status like 'Submitted' and userstatus.year like '"+showYear+"') and month="+showMonth+" and details.project not like 'Leave/Holiday' ORDER by details.project";
 rs = statement.executeQuery(sql1);
 TreeMap<String,String> save_sets=new TreeMap<String,String>();
 if(rs.next())

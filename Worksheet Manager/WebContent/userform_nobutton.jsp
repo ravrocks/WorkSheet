@@ -9,11 +9,12 @@
 <html>
     
     <%
-    String userName = null;
+    String userName = null,userYear=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
-	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
+		if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
+		if(cookie.getName().equals("timesheet_load_year")) userYear = cookie.getValue();
     	}
     }
     if((userName == null)) 
@@ -107,40 +108,26 @@
 </div>  
     <script async defer type="text/javascript">
     
+    var nmop;
     function sendmeBack()
-    {
+    	{
     	window.history.back();
-    }
+    	}
 
-    
-        //Month initializing script
     $(document).ready(function() {
-            var nmnm=getCookie("timesheet_load_month");
-           tasting(nmnm); 
+           var nmnm=getCookie("timesheet_load_month");
+           nmop=getCookie("timesheet_load_year");
+           tasting(nmnm,nmop); 
         });
-    function tasting(txt){
+    function tasting(txt,txt2){
             $("#infoo").css("display","none");
-            var month = new Array();
-            month[0] = "January";
-            month[1] = "February";
-            month[2] = "March";
-            month[3] = "April";
-            month[4] = "May";
-            month[5] = "June";
-            month[6] = "July";
-            month[7] = "August";
-            month[8] = "September";
-            month[9] = "October";
-            month[10] = "November";
-            month[11] = "December";
+            var month = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
             let monint = 0;
             month.forEach(function(element,i){
                 if(txt==element)
                     monint=i;
             });
-            let current_year=2020;
-            if(monint==11)
-            	current_year=2019;
+            let current_year=parseInt(txt2);
             var date = new Date(Date.UTC(current_year, monint, 1));
             var days = [];
             while (month[date.getMonth()] === txt) {
@@ -190,7 +177,7 @@
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
-                itemx ["date"]=datte+" 2020";
+                itemx ["date"]=datte+" "+nmop;
                 itemx ["ptype"]=project_type;
                 itemx ["plist"]=project_list;
                 itemx ["agroup"]=act_group;
@@ -239,7 +226,7 @@
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
-                itemx ["date"]=datte+" 2020";
+                itemx ["date"]=datte+" "+nmop;
                 itemx ["ptype"]=project_type;
                 itemx ["plist"]=project_list;
                 itemx ["agroup"]=act_group;

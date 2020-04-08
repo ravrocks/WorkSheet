@@ -65,9 +65,13 @@ public class Login extends HttpServlet{
                                         String pattern = "MM";
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                                         String month_created=simpleDateFormat.format(new Date());
+                                        String patt2= "YYYY";
+                                        simpleDateFormat = new SimpleDateFormat(patt2);
+                                        String year_created=simpleDateFormat.format(new Date());
                                         Cookie loginCook= new Cookie("timesheet_psno",psno);
                                         Cookie loginCook2= new Cookie("timesheet_name",rs.getString(1));
                                         Cookie monSet= new Cookie("show_month",month_created);
+                                        Cookie yrrSet=new Cookie("show_year",year_created.trim());
                                         
                                         //monSet.setMaxAge(30*60);
                                         //loginCook.setMaxAge(30*60);
@@ -75,6 +79,7 @@ public class Login extends HttpServlet{
                                         
                                         
                                         response.addCookie(monSet);
+                                        response.addCookie(yrrSet);
                                         response.addCookie(loginCook);
                                         response.addCookie(loginCook2);
                                         response.sendRedirect("dashboard.jsp");

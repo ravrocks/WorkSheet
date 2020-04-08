@@ -24,7 +24,7 @@
 <script src="assets/js/jquery-clockpicker.js"></script>
 <script src="assets/js/jquery.bootpag.min.js"></script>
 <%
-    String userName = null,userPsno=null,userTIC=null,viewing_month=null;
+    String userName = null,userPsno=null,userTIC=null,viewing_month=null,viewing_year=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies)
@@ -32,6 +32,7 @@
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
 	if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
 	if(cookie.getName().equals("timesheet_load_month")) viewing_month = cookie.getValue();
+	if(cookie.getName().equals("timesheet_load_year")) viewing_year = cookie.getValue();
     	}
     }
     if((userName == null)) 
@@ -258,7 +259,7 @@
 
                     	  <td class="col-md-1 col-lg-1" align="center" style="color: #CC3300;font-family: Georgia, serif;font-size:15px">
                               <%
-                              int yr_val=printdate.indexOf("2020");
+                              int yr_val=printdate.indexOf(viewing_year);
                               String formal_printdate=printdate.substring(0,yr_val-1).trim();
                               if(exdate.equalsIgnoreCase(printdate))
                                 out.print("<span style='color:#fff;opacity:.1'>"+formal_printdate+"</span>");
@@ -370,7 +371,7 @@
                           <tr id="<%=formated_date_row%>">
                             <td align="center" class="col-md-1">
                               <%
-                              int yr_vall=formated_date.indexOf("2020");
+                              int yr_vall=formated_date.indexOf(viewing_year);
                               String formal_formated_date=formated_date.substring(0,yr_vall-1).trim();
                               out.print(formal_formated_date);
                               %>

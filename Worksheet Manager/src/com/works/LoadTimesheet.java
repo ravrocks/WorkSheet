@@ -1,4 +1,5 @@
 package com.works;
+import com.google.common.primitives.Ints;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.IOException;
@@ -33,13 +34,19 @@ public class LoadTimesheet extends HttpServlet{
          ResultSet rss_for_month=stmnt_for_month.executeQuery();
          rss_for_month.next();
          String got_month=rss_for_month.getString(2);
-         rss_for_month.close();
+         //for setting year
+         Integer yrrr=Ints.tryParse(rss_for_month.getString(3));
+         Cookie yrrSet= new Cookie("timesheet_load_year",yrrr.toString());
+    	 response.addCookie(yrrSet);
+         
+    	 rss_for_month.close();
          stmnt_for_month.close();
          
          int got_monthz=returnMonnum(got_month);
          int selected_monthz=returnMonnum(selection);
          
-         if((selected_monthz==got_monthz)||(selected_monthz==got_monthz-1)||(selected_monthz==12))
+         
+         if((selected_monthz==got_monthz))
  			{     	 
         	 PreparedStatement ssttmm=conn.prepareStatement("select count(psno) from userstatus where psno="+Integer.parseInt(userPsno)+" and month="+returnMonnum(selection));
         	 ResultSet rrss=ssttmm.executeQuery();

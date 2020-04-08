@@ -70,6 +70,7 @@ popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50
 <tr>
 <th scope="col">Name</th>
 <th scope="col">Month</th>
+<th scope="col">Year</th>
 <th scope="col">Status</th>
 <th scope="col"></th>
 </tr>
@@ -78,7 +79,7 @@ popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50
 try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql ="select name,psno,month,status from userstatus where psno='"+Integer.parseInt(userPsno)+"' and name like '"+userName+"' order by userstatus.month;";
+String sql ="select name,psno,month,status,year from userstatus where psno='"+Integer.parseInt(userPsno)+"' and name like '"+userName+"' order by userstatus.month;";
 rs = statement.executeQuery(sql);
 while(rs.next()){
 %>
@@ -97,19 +98,20 @@ while(rs.next()){
 	   out.println(rs.getString("month"));
 	%>		
 </td>
+<td><%=rs.getString("year") %></td>
 <td><%=rs.getString("status") %></td>
 <td>
 <%
 if(rs.getString("status").equals("Submitted"))
 {
 	%>
-	<a onclick="basicPopup(this.href);return false" href="print.jsp?for_month=<%=rs.getString("month")%>"><span class="glyphicon">&#xe105;</span> View</a>&nbsp;&nbsp;	
+	<a onclick="basicPopup(this.href);return false" href="print.jsp?for_month=<%=rs.getString("month")%>&for_year=<%=rs.getString("year")%>"><span class="glyphicon">&#xe105;</span> View</a>&nbsp;&nbsp;	
 	<%
 }
 else
 {
 	%>
-	<a onclick="sendEdit(<%=rs.getString("month")%>)" href="#"><span class="glyphicon">&#xe065;</span> Edit</a>
+	<a onclick="sendEdit(<%=rs.getString("month")%>,<%=rs.getString("year")%>)" href="#"><span class="glyphicon">&#xe065;</span> Edit</a>
 	<%
 }
 %>
@@ -130,22 +132,12 @@ e.printStackTrace();
 </div>
 
 <script>
-var monthAA = new Array();
-monthAA[0] = "January";
-monthAA[1] = "February";
-monthAA[2] = "March";
-monthAA[3] = "April";
-monthAA[4] = "May";
-monthAA[5] = "June";
-monthAA[6] = "July";
-monthAA[7] = "August";
-monthAA[8] = "September";
-monthAA[9] = "October";
-monthAA[10] = "November";
-monthAA[11] = "December";
-function sendEdit(month)
+var monthAA = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+function sendEdit(month,yearx)
 {
 	document.cookie = "timesheet_load_month="+monthAA[month-1];
+	document.cookie = "timesheet_load_year="+yearx;
 	window.location="userform_personal.jsp";
 }
 </script>

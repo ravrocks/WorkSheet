@@ -8,13 +8,15 @@
 <%@ page import="java.util.ListIterator"%>
 
 <%
-String userName = null,userPsno=null, showMonth=null;
+String userName = null,userPsno=null, showMonth=null,showYear=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
     if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
     if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
+    if(cookie.getName().equals("show_year")) showYear = cookie.getValue(); 
+
     
     }
     }
@@ -84,7 +86,7 @@ try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
 String sql ="select * from project_list where listing NOT LIKE 'Leave/Holiday' order by listing";
-String sql1 = "select sum(derivedtablez.hrs) from (select DISTINCT details.date,details.remarks,details.hrs,details.subfunction from userstatus,details where userstatus.psno=details.psno and userstatus.status like 'Submitted' and project=? and details.month="+showMonth+") as derivedtablez";
+String sql1 = "select sum(derivedtablez.hrs) from (select DISTINCT details.date,details.remarks,details.hrs,details.subfunction from userstatus,details where userstatus.psno=details.psno and userstatus.status like 'Submitted' and project=? and details.month="+showMonth+" and userstatus.year like '"+showYear+"') as derivedtablez";
 PreparedStatement ps1 = connection.prepareStatement(sql1);
 rs = statement.executeQuery(sql);
 

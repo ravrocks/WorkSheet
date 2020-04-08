@@ -21,13 +21,14 @@
 <script src="assets/js/jquery-clockpicker.js"></script>
 <script src="assets/js/jquery.bootpag.min.js"></script>
 <%
-    String userName = null,userPsno=null,viewing_month=null;
+    String userName = null,userPsno=null,viewing_month=null,viewing_year=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
 	if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
 	if(cookie.getName().equals("timesheet_load_month")) viewing_month = cookie.getValue();
+	if(cookie.getName().equals("timesheet_load_year")) viewing_year = cookie.getValue();
     	}
     }
     if((userName == null)) 
@@ -69,13 +70,12 @@
               $("#tablez_body tr").each(function() {
                arr.push(this.id);
                 });
-              console.log(arr);
               for(let fgh=0;fgh<arr.length;fgh++)
               {
                   var zxc_ind=arr[fgh];
                   if(zxc_ind.indexOf("Sun")!=-1)
                     {
-                      console.log("yes");
+                      //console.log("yes");
                       document.getElementById(zxc_ind).style.backgroundColor='#fff1e3';
                      }
               }
@@ -212,7 +212,7 @@
                         		  break;
                         	  }
                           }
-                    	  updateSS.executeUpdate("insert into userstatus(name,psno,month,status) values('"+userName+"',"+userPsno+","+viewing_month_int+",'Pending')");
+                    	  updateSS.executeUpdate("insert into userstatus(name,psno,month,status,year) values('"+userName+"',"+userPsno+","+viewing_month_int+",'Pending',"+viewing_year+")");
                     	  
                     	  updateSS.close();
                     	  conn.close();
@@ -239,7 +239,7 @@
                           <tr id="<%=formated_date_row%>">
                             <td align="center" class="col-md-1">
                               <%
-                              int yr_vall=formated_date.indexOf("2020");
+                              int yr_vall=formated_date.indexOf(viewing_year);
                               String formal_formated_date=formated_date.substring(0,yr_vall-1).trim();
                               out.print(formal_formated_date);
                               %>
