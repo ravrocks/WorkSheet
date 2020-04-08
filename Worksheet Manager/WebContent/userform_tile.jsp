@@ -55,8 +55,16 @@
 		</button>
             <div class="collapse navbar-collapse" id="navcol-1" >
                 <ul class="nav navbar-nav ml-auto" style="float:right;">
-                    <li class="nav-item" role="presentation" style="font-size:18px"><a uk-scroll="offset:100">Welcome&nbsp;<%out.println(userName);%></a></li>
-                    <li class="nav-item" role="presentation" style="font-size:18px"><a href="logout.jsp" uk-scroll="offset:50">Logout</a></li>
+                    <li class="nav-item" role="presentation" style="font-size:18px">
+                        <a href="#" class="btn btn-light btn-lg">
+                            <span class="glyphicon glyphicon-user"></span> <%out.println(userName);%>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation" style="font-size:18px">
+                        <a href="logout.jsp" class="btn btn-md">
+                            <span class="glyphicon glyphicon-log-out"></span> Log out
+                        </a>
+                    </li>
                 </ul>
             </div>
         

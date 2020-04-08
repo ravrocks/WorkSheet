@@ -82,13 +82,12 @@ connection = new getConnection().getConnection();
 statement=connection.createStatement();
 String sql1 = "select details.project,details.subfunction,details.hrs from details where exists (select userstatus.psno from userstatus where userstatus.psno=details.psno and userstatus.status like 'Submitted') and month="+showMonth+" and details.project not like 'Leave/Holiday' ORDER by details.project";
 rs = statement.executeQuery(sql1);
-
-rs.next();
-
 TreeMap<String,String> save_sets=new TreeMap<String,String>();
-save_sets.put(rs.getString(1)+"$"+rs.getString(2),rs.getString(3));
+if(rs.next())
+	{
+	save_sets.put(rs.getString(1)+"$"+rs.getString(2),rs.getString(3));
 
-while(rs.next())
+	while(rs.next())
     {
         Set zz_set=save_sets.keySet();
         if(zz_set.contains(rs.getString(1)+"$"+rs.getString(2)))
@@ -105,10 +104,19 @@ while(rs.next())
         	//System.out.println(rs.getString(1)+"$"+rs.getString(2)+"naya hain");
             save_sets.put(rs.getString(1)+"$"+rs.getString(2),rs.getString(3));
            
-        }
+        	}
      
-    }
- connection.close();   
+    	}
+		statement.close();
+ 		connection.close();
+ 		rs.close();
+	}
+	else
+	{
+		statement.close();
+ 		connection.close();
+ 		rs.close();
+	}
     %>
     <tbody>
     <%
@@ -177,7 +185,8 @@ while(rs.next())
 </tbody>
 <%
 } catch (Exception e) {
-System.out.println(e.toString());
+	System.out.println("In All report");
+	System.out.println(e.toString());
 }
 %>
 </table>

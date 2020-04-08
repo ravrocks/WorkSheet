@@ -22,7 +22,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My WorkSheet</title>
+    <title>My Worksheet</title>
     <!-- Javascripts -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery-clockpicker.js"></script>
@@ -58,7 +58,16 @@
 		</button>
             <div class="collapse navbar-collapse" id="navcol-1" >
                 <ul class="nav navbar-nav ml-auto" style="float:right;">
-                    <li class="nav-item" role="presentation" style="font-size:18px"><a uk-scroll="offset:100">Welcome&nbsp;<%out.println(userName);%></a></li>
+                    <li class="nav-item" role="presentation">
+                        <a href="userform_tile.jsp">
+                        <span class="glyphicon glyphicon-home"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation" style="font-size:18px">
+                        <a href="#" class="btn btn-light btn-lg">
+                            <span class="glyphicon glyphicon-user"></span> <%out.println(userName);%>
+                        </a>
+                    </li>
                     <li class="nav-item" role="presentation" style="font-size:18px"><a href="logout.jsp" uk-scroll="offset:50">Logout</a></li>
                 </ul>
             </div>
@@ -181,7 +190,7 @@
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
-                itemx ["date"]=datte;
+                itemx ["date"]=datte+" 2020";
                 itemx ["ptype"]=project_type;
                 itemx ["plist"]=project_list;
                 itemx ["agroup"]=act_group;
@@ -230,7 +239,7 @@
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
-                itemx ["date"]=datte;
+                itemx ["date"]=datte+" 2020";
                 itemx ["ptype"]=project_type;
                 itemx ["plist"]=project_list;
                 itemx ["agroup"]=act_group;

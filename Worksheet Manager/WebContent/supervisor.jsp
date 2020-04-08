@@ -99,13 +99,14 @@ while(rs.next()){
 </tr>
 </tbody>
 <%
-}
-connection.close();
-statement.close();
-rs.close();
+	}
+	connection.close();
+	statement.close();
+	rs.close();
 } 
 catch (Exception e) {
-e.printStackTrace();
+	//System.out.println("In supervisor");
+	e.printStackTrace();
 }
 %>
 </table>

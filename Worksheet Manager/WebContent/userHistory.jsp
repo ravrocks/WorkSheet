@@ -1,7 +1,10 @@
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.text.DateFormatSymbols" %>
+<%@ page import="com.google.common.primitives.Ints" %>
 <%@page import="com.works.getConnection" %>
+
 <%
     String userName = null,userPsno=null;
     Cookie[] cookies = request.getCookies();
@@ -75,27 +78,38 @@ popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50
 try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql ="select name,psno,month,status from userstatus where psno='"+Integer.parseInt(userPsno)+"' and name like '"+userName+"';";
+String sql ="select name,psno,month,status from userstatus where psno='"+Integer.parseInt(userPsno)+"' and name like '"+userName+"' order by userstatus.month;";
 rs = statement.executeQuery(sql);
 while(rs.next()){
 %>
 <tbody>
 <tr>
 <td><%=userName %></td>
-<td><%=rs.getString("month") %></td>
+<td>
+	<%
+	Integer mn=Ints.tryParse(rs.getString("month"));
+	if(mn!=null)
+		{
+		String monthString = new DateFormatSymbols().getMonths()[mn-1];
+		out.println(monthString);
+		}
+	else
+	   out.println(rs.getString("month"));
+	%>		
+</td>
 <td><%=rs.getString("status") %></td>
 <td>
 <%
 if(rs.getString("status").equals("Submitted"))
 {
 	%>
-	<a onclick="basicPopup(this.href);return false" href="print.jsp?for_month=<%=rs.getString("month")%>">View</a>&nbsp;&nbsp;	
+	<a onclick="basicPopup(this.href);return false" href="print.jsp?for_month=<%=rs.getString("month")%>"><span class="glyphicon">&#xe105;</span> View</a>&nbsp;&nbsp;	
 	<%
 }
 else
 {
 	%>
-	<a onclick="sendEdit(<%=rs.getString("month")%>)" href="#">Edit</a>
+	<a onclick="sendEdit(<%=rs.getString("month")%>)" href="#"><span class="glyphicon">&#xe065;</span> Edit</a>
 	<%
 }
 %>
@@ -105,6 +119,7 @@ else
 <%
 }
 rs.close();
+statement.close();
 connection.close();
 } 
 catch (Exception e) {

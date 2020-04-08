@@ -32,8 +32,8 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String sql ="select project,sum(hrs) from details where month="+Integer.parseInt(showMonth)+" and psno=? and project NOT LIKE 'Leave/Holiday' group by project";
-    String total="select sum(hrs) from details where month="+showMonth+" and psno=?";
+    String sql ="select derivedtables.project,sum(derivedtables.hrs) from (select distinct date,hrs,project,remarks from details where month="+showMonth+" and psno=? and project NOT LIKE 'Leave/Holiday' order by project) as derivedtables group by derivedtables.project";
+    String total="select sum(derivedtabless.hrs) from (select distinct date,hrs,project,remarks from details where month="+showMonth+" and psno=? and project NOT LIKE 'Leave/Holiday' order by project) as derivedtabless";
 	//rs = statement.executeQuery(sql);
 	PreparedStatement ps = connection.prepareStatement(sql); 
 	PreparedStatement ps1 = connection.prepareStatement(total); 

@@ -64,8 +64,25 @@
               		$(this).val(($(this).val()).substring(0, 250+textlen));
               		}
               	}); 
+              var arr = [];
+
+              $("#tablez_body tr").each(function() {
+               arr.push(this.id);
+                });
+              console.log(arr);
+              for(let fgh=0;fgh<arr.length;fgh++)
+              {
+                  var zxc_ind=arr[fgh];
+                  if(zxc_ind.indexOf("Sun")!=-1)
+                    {
+                      console.log("yes");
+                      document.getElementById(zxc_ind).style.backgroundColor='#fff1e3';
+                     }
+              }
+
+
         });
-        
+
         function paging_display(numb)
         {
             var complete_table=document.getElementById("show_table");
@@ -123,7 +140,12 @@
 </script>
 <!-- Stylesheets -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">    
-                                
+<style>
+  #detailz1
+  {
+    color:#337ab7;
+  }
+</style>                                
     <table id="show_table" class="table table-hover table-bordered table-list">
                   <thead>
                     <tr>
@@ -217,7 +239,9 @@
                           <tr id="<%=formated_date_row%>">
                             <td align="center" class="col-md-1">
                               <%
-                              out.print(formated_date);
+                              int yr_vall=formated_date.indexOf("2020");
+                              String formal_formated_date=formated_date.substring(0,yr_vall-1).trim();
+                              out.print(formal_formated_date);
                               %>
                             </td>
                             <td class="col-md-2">
@@ -253,6 +277,7 @@
                             		%>
                         		</datalist>
                             </td>
+
                             <td class="col-md-1">
                             	<input type="text" list="browsers3" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-right: 0px">
                            		<datalist id="browsers3">
@@ -261,18 +286,21 @@
                             		%>
                            		</datalist>
                             </td>
-                            <td class="col-md-1">
-                            	<input type="text" list="browsers" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-right: 0px">
+
+                            <td class="col-md-2">
+                            	<input type="text" list="browsers" autocomplete="off" class="custom-select" style="height: 100%;width: 180px;padding: 10px;font-size: 13px;margin-right: 0px">
                            		<datalist id="browsers">
                             		<%
                             		out.print(activity_list);
                             		%>
                         		</datalist>
                             </td>
-                            <td class="col-md-4" style="width:150px">
+
+                            <td class="col-md-3" style="width:150px">
                             <textarea class="form-control" id="remarking" rows=4></textarea>
                             <span id="rchars" style="visibility: hidden;color: red">Maximum 250 characters</span>
                             </td>
+
                             <td class="col-md-1"> 
                                 <button id="<%=formated_date%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
                                 <button id="<%=formated_date+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>

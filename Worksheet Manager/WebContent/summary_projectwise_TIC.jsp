@@ -55,7 +55,7 @@ connection = new getConnection().getConnection();
 statement=connection.createStatement();
 String sql="Select * from subfunction where "+(char)34+"desc"+(char)34+" not like 'Leave/Holiday'";
 String sql1="Select distinct userstatus.name from details,userstatus where details.subfunction=? and details.project=? and userstatus.psno = details.psno and details.month="+showMonth+" and userstatus.status like 'Submitted'";
-String sql2="Select sum(hrs) from details,userstatus where subfunction=? and project=? and details.month="+showMonth+" and userstatus.psno=details.psno and userstatus.status like 'Submitted'";
+String sql2="Select sum(derivedtable.hrs) from (Select DISTINCT details.date,details.remarks,details.hrs from details,userstatus where subfunction=? and project=? and details.month="+showMonth+" and userstatus.psno=details.psno and userstatus.status like 'Submitted') as derivedtable";
 //String sql ="select activitygroup,sum(hrs) from details1 where month="+showMonth+" and projecttype=? and project=? group by activitygroup ";
 //String sql1 ="select distinct userdata.name from details1,userdata where details1.activitygroup=? and details1.projecttype=? and details1.project=? and userdata.psno = details1.psno and month="+showMonth+" ";
 PreparedStatement ps = connection.prepareStatement(sql); 

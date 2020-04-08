@@ -32,8 +32,8 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String sql ="select subfunction,sum(hrs) from details where month="+Integer.parseInt(showMonth)+" and psno=? and subfunction NOT LIKE 'Leave/Holiday' group by subfunction";
-    String total="select sum(hrs) from details where month="+showMonth+" and psno=?";
+    String sql ="select derivedtables.subfunction,sum(derivedtables.hrs) from (select distinct date,hrs,remarks,subfunction from details where month="+showMonth+" and psno=? and subfunction NOT LIKE 'Leave/Holiday' order by subfunction) as derivedtables group by derivedtables.subfunction";
+    String total="select sum(derivedtablesr.hrs) from (select distinct date,hrs,remarks,subfunction from details where month="+showMonth+" and psno=? and subfunction NOT LIKE 'Leave/Holiday' order by subfunction) as derivedtablesr";
 	//rs = statement.executeQuery(sql);
 	PreparedStatement ps = connection.prepareStatement(sql); 
 	PreparedStatement ps1 = connection.prepareStatement(total); 

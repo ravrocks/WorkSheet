@@ -55,8 +55,21 @@
 		</button>
             <div class="collapse navbar-collapse" id="navcol-1" >
                 <ul class="nav navbar-nav ml-auto" style="float:right;">
-                    <li class="nav-item" role="presentation" style="font-size:18px"><a uk-scroll="offset:100">Welcome&nbsp;<%out.println(userName);%></a></li>
-                    <li class="nav-item" role="presentation" style="font-size:18px"><a href="logout.jsp" uk-scroll="offset:50">Logout</a></li>
+                    <li class="nav-item" role="presentation">
+                        <a href="userform_tile.jsp">
+                        <span class="glyphicon glyphicon-home"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation" style="font-size:18px">
+                        <a href="#" class="btn btn-light btn-lg">
+                            <span class="glyphicon glyphicon-user"></span> <%out.println(userName);%>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation" style="font-size:18px">
+                        <a href="logout.jsp" class="btn btn-md">
+                            <span class="glyphicon glyphicon-log-out"></span> Log out
+                        </a>
+                    </li>
                 </ul>
             </div>
         
@@ -176,7 +189,7 @@ function sendtoBhai()
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
-                itemx ["date"]=datte;
+                itemx ["date"]=datte+" 2020";
                 itemx ["ptype"]=project_type;
                 itemx ["plist"]=project_list;
                 itemx ["agroup"]=act_group;
@@ -208,7 +221,6 @@ function sendtoWorking()
                     }
                 var current_row=$(this);
                 var datte=current_row.find("td:eq(0)").text();
-                
                 if(datte.length<2)
                     datte=last_dated;
                 else
@@ -225,7 +237,7 @@ function sendtoWorking()
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
-                itemx ["date"]=datte;
+                itemx ["date"]=datte+" 2020";
                 itemx ["ptype"]=project_type;
                 itemx ["plist"]=project_list;
                 itemx ["agroup"]=act_group;
@@ -260,6 +272,7 @@ function validateHhMm(inputField) {
                 document.getElementById("finalsubmit").disabled=true;
                 document.getElementById("save").disabled=true;
             }
+        
             return areValid;
         }
 function showError(txxt)

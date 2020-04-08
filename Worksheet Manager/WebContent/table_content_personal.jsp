@@ -68,7 +68,33 @@
               		$(this).next().css("visibility","visible");
               		$(this).val(($(this).val()).substring(0, 250+textlen));
               		}
-              	});    
+              	});
+
+              $('input').keyup(function() {
+              	  var textlen = 99 - $(this).val().length;
+              	  if(textlen>0)
+              		  $(this).next().next().css("visibility","hidden");
+              	  else
+              		{
+              		$(this).next().next().css("visibility","visible");
+              		$(this).val(($(this).val()).substring(0, 99+textlen));
+              		}
+              	});
+
+              var arr = [];
+
+              $("#tablez_body tr").each(function() {
+               arr.push(this.id);
+                });
+              for(let fgh=0;fgh<arr.length;fgh++)
+              {
+                  var zxc_ind=arr[fgh];
+                  if(zxc_ind.indexOf("Sun")!=-1)
+                    document.getElementById(zxc_ind).style.backgroundColor='#fff1e3';
+              }
+
+
+
         });
     
         function paging_display(numb)
@@ -112,19 +138,6 @@
             x.appendChild(t);
             clone.replaceChild(x,clone.childNodes[1]);
             //alert(clone.childNodes.length);
-            //alert(clone.childNodes[13].innerHTML);
-            //setting remarks as blank
-            clone.childNodes[13].getElementsByTagName("textarea")[0].innerHTML="";
-            //setting activity as blank
-            clone.childNodes[11].getElementsByTagName("input")[0].value="";
-          	//setting activity group as blank
-            clone.childNodes[9].getElementsByTagName("input")[0].value="";
-            //setting subfunction as blank
-            clone.childNodes[7].getElementsByTagName("input")[0].value="";
-          	//setting project as blank
-            clone.childNodes[5].getElementsByTagName("input")[0].value="";
-          	
-            //console.log(clone.childNodes[5].getElementsByTagName("input")[0].value);
             z=clone.childNodes[15];
             zz=z.childNodes[3];
             zz.style.display="block";
@@ -148,7 +161,12 @@
 </script>
 <!-- Stylesheets -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">    
-                                
+<style>
+  #detailz1
+  {
+    color:#337ab7;
+  }
+</style>                                
     <table id="show_table" class="table table-hover table-bordered table-list">
                   <thead>
                     <tr>
@@ -237,17 +255,21 @@
                           String printdate=simpleDateFormat.format(date1);
                     	  %>
                     	  <tr id="<%=printdate+"_row"%>">
-                    	  <td align="center" class="col-md-1" style="color: #BF8238;font-family: Georgia, serif;font-size:15px">
+
+                    	  <td class="col-md-1 col-lg-1" align="center" style="color: #CC3300;font-family: Georgia, serif;font-size:15px">
                               <%
+                              int yr_val=printdate.indexOf("2020");
+                              String formal_printdate=printdate.substring(0,yr_val-1).trim();
                               if(exdate.equalsIgnoreCase(printdate))
-                                out.print("<span style='color:#fff;opacity:.1'>"+printdate+"</span>");
+                                out.print("<span style='color:#fff;opacity:.1'>"+formal_printdate+"</span>");
                               else
-                            	out.print(printdate);
+                            	out.print(formal_printdate);
                               String stertingz=rsss.getString("fromtime");
                               String endingz=rsss.getString("totime");
                               %>
                             </td>
-                            <td>
+
+                            <td class="col-md-2 col-lg-2">
                             <div id="<%=sDate1+"_startc"%>"  style="width:100px" class="input-group" data-placement="right" data-align="top" data-autoclose="true">
                                 <input style="width:100%;" type="text" class="form-control" value="<%=stertingz%>">
                                 <span class="input-group-addon">
@@ -264,44 +286,53 @@
                                 </span>
                              </div>
                             </td>
-                            <td>
+
+                            <td class="col-md-1 col-lg-1">
                             <input type="text" list="browsers2" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("project")%>">
                             <datalist id="browsers2">
                             		<%
                             		out.print(project_list);
                             		%>
                         	</datalist>
+                        	<span id="rchars2" style="visibility: hidden;color: red">Max 80 characters</span>
                             </td>
-                            <td>
+
+                            <td class="col-md-1 col-lg-1">
                             <input type="text" list="proj_type" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("subfunction")%>">
                             <datalist id="proj_type" >
                             		<%
                             		out.print(subfunction);
                             		%>
                         	</datalist>
+                        	<span id="rchars3" style="visibility: hidden;color: red">Max 80 characters</span>
                             </td>
-                            <td>
+
+                            <td class="col-md-1 col-lg-1">
                             <input type="text" list="browsers3" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("activitygroup")%>">
                             <datalist id="browsers3">
                            			<%
                             		out.print(activity_group);
                             		%>
                             </datalist>
+                            <span id="rchars4" style="visibility: hidden;color: red">Max 80 characters</span>
                             </td>
-                            <td>
-                            <input type="text" list="browsers" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("activity")%>">
+
+                            <td class="col-md-2 col-lg-2">
+                            <input type="text" list="browsers" autocomplete="off" class="custom-select" style="height: 100%;width: 180px;padding: 10px;font-size: 13px;margin-bottom: 1px;-webkit-appearance: none;-moz-appearance: none;" value="<%=rsss.getString("activity")%>">
                             <datalist id="browsers">
                             		<%
                             		out.print(activity_list);
                             		%>
                         	</datalist>
+                        	<span id="rchars5" style="visibility: hidden;color: red">Max 80 characters</span>
                             </td>
-                            <td>
-                            	<textarea class="form-control" id="remarking" rows=4><%=rsss.getString("remarks")%>
-                            	</textarea>
+
+                            <td class="col-md-3 col-lg-3">
+                            	<textarea class="form-control" id="remarking" rows=4><%=rsss.getString("remarks").trim()%></textarea>
                             	<span id="rchars" style="visibility: hidden;color: red">Maximum 250 characters</span>
                             </td>
-                            <td class="col-md-1"> 
+
+                            <td class="col-md-1 col-lg-1"> 
                                 <button id="<%=printdate%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
                                 <%
                                 if(exdate.equalsIgnoreCase(printdate))
@@ -313,7 +344,7 @@
                                 else
                                 {
                                 	 %>
-                                <button id="<%=printdate+"_row"%>" onclick="removedRow(this.id)" type="button" class="btn btn-danger" style="display:none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=printdate+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display:none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                                      <%	
                                 }
                                 %>
@@ -339,7 +370,9 @@
                           <tr id="<%=formated_date_row%>">
                             <td align="center" class="col-md-1">
                               <%
-                              out.print(formated_date);
+                              int yr_vall=formated_date.indexOf("2020");
+                              String formal_formated_date=formated_date.substring(0,yr_vall-1).trim();
+                              out.print(formal_formated_date);
                               %>
                             </td>
                             <td class="col-md-2">
@@ -366,6 +399,7 @@
                             		out.print(project_list);
                             		%>
                         		</datalist>
+                        		<span id="rchars2" style="visibility: hidden;color: red">Max 80 characters</span>
 							</td>                           
                             <td id="<%=formated_date+"_subfunction"%>" class="col-md-1">
            						<input id="project_type_buttonz"  aria-expanded="false" list="proj_type" type="text" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-right: 0px">
@@ -374,6 +408,7 @@
                             		out.print(subfunction);
                             		%>
                         		</datalist>
+                        		<span id="rchars3" style="visibility: hidden;color: red">Max 80 characters</span>
                             </td>
                             <td class="col-md-1">
                             	<input type="text" list="browsers3" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-right: 0px">
@@ -382,23 +417,24 @@
                             		out.print(activity_group);
                             		%>
                            		</datalist>
+                           		<span id="rchars4" style="visibility: hidden;color: red">Max 80 characters</span>
                             </td>
-                            <td class="col-md-1">
-                            	<input type="text" list="browsers" autocomplete="off" class="custom-select" style="height: 100%;width: 150px;padding: 10px;font-size: 13px;margin-right: 0px">
+                            <td class="col-md-2">
+                            	<input type="text" list="browsers" autocomplete="off" class="custom-select" style="height: 100%;width: 180px;padding: 10px;font-size: 13px;margin-right: 0px">
                            		<datalist id="browsers">
                             		<%
                             		out.print(activity_list);
                             		%>
                         		</datalist>
+                        		<span id="rchars5" style="visibility: hidden;color: red">Max 80 characters</span>
                             </td>
-                            <td class="col-md-4" style="width:150px">
-                            	<textarea class="form-control" id="remarking" rows=4>
-                            	</textarea>
+                            <td class="col-md-3" style="width:150px">
+                            	<textarea class="form-control" id="remarking" rows=4></textarea>
                             	<span id="rchars" style="visibility: hidden;color: red">Maximum 250 characters</span>
                             </td>
                             <td class="col-md-1"> 
                                 <button id="<%=formated_date%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                                <button id="<%=formated_date+"_row"%>" onclick="removedRow()" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=formated_date+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                             </td>
                           </tr>
                           <%
