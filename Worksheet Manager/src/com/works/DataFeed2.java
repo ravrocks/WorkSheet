@@ -126,8 +126,15 @@ public class DataFeed2 extends HttpServlet{
                  }
              catch (Exception e) 
               {
+            	 String eOut=e.toString();
             	 System.out.println(joshObj.toString());
                  e.printStackTrace();
+                 if(eOut.contains("too long"))
+                	 response.getWriter().print("Error Code - Lemon"+"\n"+eOut.substring(0, 400));
+                 else if(eOut.contains("unique"))
+                	 response.getWriter().print("Error Code - Guitar"+"\n"+eOut.substring(0, 400));
+                 else
+                	 response.getWriter().print("Error Code - Salad"+"\n"+eOut.substring(0, 400));
               } 
 		  }
      

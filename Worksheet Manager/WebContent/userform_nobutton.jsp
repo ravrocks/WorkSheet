@@ -150,7 +150,7 @@
         function sendtoBhai()
         {
             let mn=0;
-            var last_dated;
+            var last_dated;var prob_date=true;
             var joshObj=[];
             var start_time,end_time,project_type,project_list,act_group,act_list;
             $("#show_table tr").each(function(){
@@ -174,6 +174,8 @@
                 remarks=current_row.find("td:eq(6)").find("textarea:eq(0)").val();
                 //alert(remarks);
                 //var col3=current_row.find("td:eq(2)").text();
+                if((start_time.length>4)||(end_time.length>4))
+                	prob_date=false;
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
@@ -184,22 +186,28 @@
                 itemx ["alist"]=act_list;
                 itemx ["remarks"]=remarks;
                 joshObj.push(itemx);
-                
                 });
-            $.ajax({
-                type: "POST",
-                url: "DataFeed2",
-                data: {sanding:JSON.stringify(joshObj)},
-                success : function(responseText) {
+            if(prob_date)
+        	{
+	            $.ajax({
+      	            type: "POST",
+        	        url: "DataFeed2",
+            	    data: {sanding:JSON.stringify(joshObj)},
+                	success : function(responseText) {
                     if(responseText!="")
                       showError(responseText);
                     }
                 });
+        	}
+			else
+			{
+            	showError("Accepted Time Format is HH:mm only!");	
+			}
          }
         function sendtoWorking()
         {
             let mn=0;
-            var last_dated;
+            var last_dated;var prob_date=true;
             var joshObj=[];
             var start_time,end_time,project_type,project_list,act_group,act_list;
             $("#show_table tr").each(function(){
@@ -223,6 +231,8 @@
                 remarks=current_row.find("td:eq(6)").find("textarea:eq(0)").val();
                 //alert(remarks);
                 //var col3=current_row.find("td:eq(2)").text();
+                if((start_time.length>4)||(end_time.length>4))
+                	prob_date=false;
                 itemx = {}
                 itemx ["starttime"] = start_time;
                 itemx ["endtime"] = end_time;
@@ -235,20 +245,27 @@
                 joshObj.push(itemx);
                 
                 });
-            $.ajax({
-                type: "POST",
-                url: "DataFeed",
-                data: {sanding:JSON.stringify(joshObj)},
-                success : function(responseText) {
+            if(prob_date)
+        	{
+            	$.ajax({
+                	type: "POST",
+                	url: "DataFeed",
+                	data: {sanding:JSON.stringify(joshObj)},
+                	success : function(responseText) {
                     if(responseText!="")
                     showError(responseText);
                     else
                     showInfo();
                     }
                 });
+        	}
+			else
+			{
+        		showError("Accepted Time Format is HH:mm only!");	
+			}
          }
-        function validateHhMm(inputField) {
-            var areValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
+function validateHhMm(inputField) {
+            var areValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])?$/.test(inputField.value);
             if (areValid)
             {
                 inputField.style.backgroundColor = '#bfa';
