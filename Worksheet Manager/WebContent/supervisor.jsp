@@ -84,7 +84,7 @@ show_month=Calendar.getInstance().get(Calendar.MONTH)+1;
 else    
 show_month=Integer.parseInt(mx);
 
-String sql ="select distinct userstatus.name, details.psno from userstatus, details  where userstatus.psno = details.psno and userstatus.year like '"+showYear+"' and userstatus.month="+show_month+" and userstatus.status like 'Submitted';";
+String sql ="select distinct userstatus.name, details.psno from userstatus, details  where userstatus.psno = details.psno and userstatus.year like '"+showYear+"' and userstatus.month="+show_month+" and userstatus.status like 'Submitted' order by userstatus.name;";
 rs = statement.executeQuery(sql);
 while(rs.next()){
 %>

@@ -279,7 +279,11 @@ function showInfo()
         text: "Record saved.",
         type: 'info',
         confirmButtonText: 'Ok'
-        });
+        }).then(function(){
+        	console.log("Reloading stuff");
+        	location.reload();
+        	}
+        );
     }
 function showInfo2()
 {

@@ -79,7 +79,7 @@ popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50
 try{
 connection = new getConnection().getConnection();
 statement=connection.createStatement();
-String sql ="select name,psno,month,status,year from userstatus where psno='"+Integer.parseInt(userPsno)+"' and name like '"+userName+"' order by userstatus.month;";
+String sql ="select name,psno,month,status,year from userstatus where psno='"+Integer.parseInt(userPsno)+"' and name like '"+userName+"' order by userstatus.status DESC,userstatus.month;";
 rs = statement.executeQuery(sql);
 while(rs.next()){
 %>

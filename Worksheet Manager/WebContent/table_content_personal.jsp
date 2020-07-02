@@ -131,7 +131,8 @@
         
         function addMoreRow(ix)
         {
-            var row = document.getElementById(ix+"_row");   
+        	//console.log("id of clicked button is-- "+ix);
+        	var row = document.getElementById(ix);	
             clone = row.cloneNode(true);    
             clone.id = ix+"_row"+"_row";
             var x = document.createElement("TD");
@@ -139,24 +140,41 @@
             x.appendChild(t);
             clone.replaceChild(x,clone.childNodes[1]);
             //alert(clone.childNodes.length);
+           
             z=clone.childNodes[15];
             zz=z.childNodes[3];
             zz.style.display="block";
             z.replaceChild(zz,z.childNodes[3]);
             clone.replaceChild(z,clone.childNodes[15]);
+			
+            var button_addcatch = $(clone).find('button');
+            button_addcatch.eq(0).attr('id', clone.id);
+            button_addcatch.eq(1).attr('id', clone.id+"_remove");
+            
+            var nptText= $(clone).find('input');
+            var cpyend=nptText.eq(1).val();
+            nptText.eq(0).val(cpyend);
+            nptText.eq(2).val('');
+            nptText.eq(3).val('');
+            nptText.eq(4).val('');
+            nptText.eq(5).val('');
+            
+            var TextRmrk= $(clone).find('textarea');
+            TextRmrk.eq(0).val('');
+            
             row.insertAdjacentElement("afterend", clone);   
         }
         
         function removeRow(ix)
         {
         	var td = event.target.parentNode; 
-            var tr = td.parentNode; // the row to be removed
+            var tr = td.parentNode; 
             tr.parentNode.removeChild(tr);
         }
         function removedRow()
         {
         	var td = event.target.parentNode; 
-            var tr = td.parentNode; // the row to be removed
+            var tr = td.parentNode; 
             tr.parentNode.removeChild(tr);
         }
 </script>
@@ -247,6 +265,7 @@
                       HashSet<String> zzset=new HashSet<String>();
                       int fcount=0;
                       String exdate="";
+                      String printdate_for_row="";
                       while(rsss.next())
                       {
                     	  String sDate1=rsss.getString("date");
@@ -254,9 +273,22 @@
                   		  String pattern = "EEE MMM dd yyyy";
                           SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                           String printdate=simpleDateFormat.format(date1);
-                    	  %>
-                    	  <tr id="<%=printdate+"_row"%>">
-
+                          
+                          if(exdate.equalsIgnoreCase(printdate))
+                          {
+                        	  printdate_for_row+="_row";
+                        	  %>
+                        	  <tr id="<%=printdate_for_row%>">
+                        	  <%
+                          }
+                          else
+                          {
+                        	  printdate_for_row=printdate;
+                        	  %>
+                        	  <tr id="<%=printdate_for_row%>">
+                        	  <%
+                          }
+                          %>
                     	  <td class="col-md-1 col-lg-1" align="center" style="color: #CC3300;font-family: Georgia, serif;font-size:15px">
                               <%
                               int yr_val=printdate.indexOf(viewing_year);
@@ -334,18 +366,18 @@
                             </td>
 
                             <td class="col-md-1 col-lg-1"> 
-                                <button id="<%=printdate%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                                <button id="<%=printdate_for_row%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
                                 <%
                                 if(exdate.equalsIgnoreCase(printdate))
                                 {
                                 %>
-                                <button id="<%=printdate+"_row"%>" onclick="removedRow()" type="button" class="btn btn-danger" style="margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=printdate_for_row+"_remove"%>" onclick="removedRow()" type="button" class="btn btn-danger" style="margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                                 <%
                                 }
                                 else
                                 {
                                 	 %>
-                                <button id="<%=printdate+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display:none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=printdate_for_row+"_remove"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display:none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                                      <%	
                                 }
                                 %>
@@ -366,7 +398,7 @@
                           String formated_date=array_for_days[j].substring(0, 15);
                           if(zzset.contains(formated_date))
                         	  continue;
-                          String formated_date_row=formated_date+"_row";
+                          String formated_date_row=formated_date;
                       		%>
                           <tr id="<%=formated_date_row%>">
                             <td align="center" class="col-md-1">
@@ -435,7 +467,7 @@
                             </td>
                             <td class="col-md-1"> 
                                 <button id="<%=formated_date%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                                <button id="<%=formated_date+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=formated_date+"_remove"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                             </td>
                           </tr>
                           <%

@@ -75,7 +75,6 @@
                   var zxc_ind=arr[fgh];
                   if(zxc_ind.indexOf("Sun")!=-1)
                     {
-                      //console.log("yes");
                       document.getElementById(zxc_ind).style.backgroundColor='#fff1e3';
                      }
               }
@@ -116,7 +115,8 @@
         
         function addMoreRow(ix)
         {
-            var row = document.getElementById(ix+"_row");   
+        	console.log("id of clicked button is-- "+ix);
+        	var row = document.getElementById(ix);	
             clone = row.cloneNode(true);    
             clone.id = ix+"_row"+"_row";
             var x = document.createElement("TD");
@@ -124,17 +124,34 @@
             x.appendChild(t);
             clone.replaceChild(x,clone.childNodes[1]);
             //alert(clone.childNodes.length);
+           
             z=clone.childNodes[15];
             zz=z.childNodes[3];
             zz.style.display="block";
             z.replaceChild(zz,z.childNodes[3]);
             clone.replaceChild(z,clone.childNodes[15]);
+			
+            var button_addcatch = $(clone).find('button');
+            button_addcatch.eq(0).attr('id', clone.id);
+            button_addcatch.eq(1).attr('id', clone.id+"_remove");
+            
+            var nptText= $(clone).find('input');
+            var cpyend=nptText.eq(1).val();
+            nptText.eq(0).val(cpyend);
+            nptText.eq(2).val('');
+            nptText.eq(3).val('');
+            nptText.eq(4).val('');
+            nptText.eq(5).val('');
+            
+            var TextRmrk= $(clone).find('textarea');
+            TextRmrk.eq(0).val('');
+            
             row.insertAdjacentElement("afterend", clone);   
         }
         
         function removeRow(ix)
         {
-            var row = document.getElementById(ix+"_row");
+            var row = document.getElementById(ix);
             row.parentNode.removeChild(row);
         }
 </script>
@@ -212,14 +229,14 @@
                         		  break;
                         	  }
                           }
-                    	  updateSS.executeUpdate("insert into userstatus(name,psno,month,status,year) values('"+userName+"',"+userPsno+","+viewing_month_int+",'Pending',"+viewing_year+")");
+                    	  updateSS.executeUpdate("insert into userstatus(name,psno,month,status,year) values('"+userName+"',"+userPsno+","+viewing_month_int+",'Pending',"+viewing_year+") ON CONFLICT(name,psno,month,status,year) DO NOTHING");
                     	  
                     	  updateSS.close();
                     	  conn.close();
                       }
                       catch(Exception e)
                       {
-                    	  e.printStackTrace();
+                    	  System.out.println("Error loading table "+e.toString());
                       }
                       String dayz=request.getParameter("dayz");
                       StringTokenizer stz=new StringTokenizer(dayz,",");
@@ -234,7 +251,7 @@
                       for(int j=0;j<i;j++)
                          {
                           String formated_date=array_for_days[j].substring(0, 15);
-                          String formated_date_row=formated_date+"_row";
+                          String formated_date_row=formated_date;
                       %>
                           <tr id="<%=formated_date_row%>">
                             <td align="center" class="col-md-1">
@@ -303,7 +320,7 @@
 
                             <td class="col-md-1"> 
                                 <button id="<%=formated_date%>" onclick="addMoreRow(this.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                                <button id="<%=formated_date+"_row"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                <button id="<%=formated_date+"_remove"%>" onclick="removeRow(this.id)" type="button" class="btn btn-danger" style="display: none;margin-top: 5px"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                             </td>
                           </tr>
                           <%

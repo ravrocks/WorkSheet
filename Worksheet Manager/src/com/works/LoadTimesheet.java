@@ -44,7 +44,7 @@ public class LoadTimesheet extends HttpServlet{
          
          int got_monthz=returnMonnum(got_month);
          int selected_monthz=returnMonnum(selection);
-         
+         System.out.println(got_monthz+"  "+selected_monthz);
          
          if((selected_monthz==got_monthz))
  			{     	 

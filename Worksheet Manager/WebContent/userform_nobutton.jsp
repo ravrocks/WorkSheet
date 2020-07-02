@@ -280,7 +280,11 @@ function showInfo()
     text: "Record saved.",
     type: 'info',
     confirmButtonText: 'Ok'
-    });
+    }).then(function(){
+    	console.log("Reloading stuff");
+    	window.location.replace("userform_personal.jsp");
+    	}
+    );
 }
 function showInfo2()
 {

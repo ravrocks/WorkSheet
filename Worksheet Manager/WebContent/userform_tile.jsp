@@ -193,7 +193,7 @@ function loadNewTimesheet()
                     if(responseText==="newly")
                       window.location="userform_nobutton.jsp";
                     else if(responseText==="existing")
-                    	showMError("Timesheet already exits for the selected month.");
+                    	showMError("Timesheet already exists for the selected month.");
                     else
                       showMError("Timesheet can be filled for current month only.");
                     	}
