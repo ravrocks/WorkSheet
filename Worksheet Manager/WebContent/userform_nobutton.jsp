@@ -174,7 +174,7 @@
                 remarks=current_row.find("td:eq(6)").find("textarea:eq(0)").val();
                 //alert(remarks);
                 //var col3=current_row.find("td:eq(2)").text();
-                if((start_time.length>4)||(end_time.length>4))
+                if((start_time.length>5)||(end_time.length>5))
                 	prob_date=false;
                 itemx = {}
                 itemx ["starttime"] = start_time;
@@ -231,7 +231,7 @@
                 remarks=current_row.find("td:eq(6)").find("textarea:eq(0)").val();
                 //alert(remarks);
                 //var col3=current_row.find("td:eq(2)").text();
-                if((start_time.length>4)||(end_time.length>4))
+                if((start_time.length>5)||(end_time.length>5))
                 	prob_date=false;
                 itemx = {}
                 itemx ["starttime"] = start_time;
