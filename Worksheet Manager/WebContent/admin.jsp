@@ -66,15 +66,23 @@
     <section>
     	 <div class="card" style="margin-top: -40px">
                 <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist" style="font-size:1.4rem">
                         <li class="nav-item"><a class="nav-link active" href="#item-1-1" id="item-1-1-tab" data-toggle="tab" role="tab" aria-controls="item-1-1" aria-selected="true">User Authentication</a></li>
-                        </ul>
+                        <li class="nav-item"><a class="nav-link" href="#item-1-2" id="item-1-2-tab" data-toggle="tab" role="tab" aria-controls="item-1-2" aria-selected="false">Add Subfunction/Project</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#item-1-3" id="item-1-3-tab" data-toggle="tab" role="tab" aria-controls="item-1-3" aria-selected="false">Change Month</a></li>    
+                    </ul>
                 </div>
          <style>a:hover{font-weight:normal;}</style>
             <div class="card-body" >
                 <div id="nav-tabContent" class="tab-content">
-                <div style="color: #000;text-align: left" id="item-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="item-1-1-tab">
+                <div style="color: #000;text-align: left;font-size:1.2rem" id="item-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="item-1-1-tab">
                     <jsp:include page="authentication.jsp" />
+                </div>
+                <div style="color: #000;text-align: left;font-size:1.2rem" id="item-1-2" class="tab-pane " role="tabpanel" aria-labelledby="item-1-2-tab">
+                    <jsp:include page="addition.jsp" />
+                </div>
+                <div style="color: #000;text-align: left;font-size:1.2rem" id="item-1-3" class="tab-pane " role="tabpanel" aria-labelledby="item-1-3-tab">
+                    <jsp:include page="chngmnth.jsp" />
                 </div>
                 </div>
             </div>

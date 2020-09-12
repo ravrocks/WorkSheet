@@ -14,7 +14,11 @@
         if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();        
     }
     }
-    if(userName == null) response.sendRedirect("home.jsp");
+    if(userName == null || userPsno==null) 
+    	{
+    	response.sendRedirect("home.jsp");
+    	return;
+    	}
 Connection connection = null;
 Statement statement = null;
 ResultSet rs = null;

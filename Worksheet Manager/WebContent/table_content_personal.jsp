@@ -260,7 +260,7 @@
                     		  break;
                     	  }
                       }
-                      PreparedStatement ssstate=conn.prepareStatement("select * from details where psno="+Integer.parseInt(userPsno)+" and month="+viewing_month_int+" ORDER by date");
+                      PreparedStatement ssstate=conn.prepareStatement("select * from details where psno="+Integer.parseInt(userPsno)+" and month="+viewing_month_int+" and year="+viewing_year+" ORDER by date");
                       ResultSet rsss=ssstate.executeQuery();
                       HashSet<String> zzset=new HashSet<String>();
                       int fcount=0;

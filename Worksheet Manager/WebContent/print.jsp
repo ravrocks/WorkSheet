@@ -23,8 +23,11 @@
 		if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
     	}
     }
-    if(userName == null||userPsno==null) response.sendRedirect("home.jsp");
-    
+    if(userName == null||userPsno==null)
+    	{
+    	response.sendRedirect("home.jsp");
+    	return;
+    	}
     String name = userName; 
     String psno = userPsno;
     int monthx= Integer.parseInt(request.getParameter("for_month"));

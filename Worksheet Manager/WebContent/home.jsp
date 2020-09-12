@@ -23,15 +23,18 @@
                     <div class="panel panel-login">
                         <div class="panel-heading">
                         <div class="logo">
-                            <img src="assets/images/logo2.png">   
+                            <img src="assets/images/lnt_Swc_logo.png">   
                         </div>
                         <div class="form-group">
                             <div class="row tab-head">
-                                <div class="col-xs-6 ">
+                                <div id="mid_one" class="col-xs-6 ">
                                     <a href="#" class="active" id="login-form-link">Login</a>
                                 </div>
-                                <div class="col-xs-6">
+                                <div id="mid_two" class="col-xs-6">
                                     <a href="#" id="register-form-link">Register</a>
+                                </div>
+                                <div id="mid_three" class="col-xs-6" style="display: none">
+                                    <a href="#" id="forgotpp">Resend Password</a>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +50,9 @@
 									<div class="form-group">
 										<input type="password" name="password" id="password" tabindex="2" class="form-control" autocomplete="off" placeholder="Password" required>
 									</div>
-									
+									<div class="form-group" align="right">
+									     <a href="#" id="fpass">Forgot Password?</a>
+									</div>
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
@@ -100,6 +105,20 @@
 										</div>
 									</div>
 								</form>
+								
+								<form id="forgot-form" action="ForgotPass" method="post" role="form" style="display: none;">
+									<div class="form-group">
+										<input type="text" name="fpsno" id="fpsno" tabindex="1" class="form-control" placeholder="PS no." required onkeypress='validate(event)'>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="fp-submit" id="fp-submit" tabindex="4" class="form-control btn btn-login" value="Submit">
+											</div>
+										</div>
+									</div>
+								</form>
+								
 							</div>
 						</div>
 					</div>
@@ -145,21 +164,40 @@ $(function() {
 		$("#login-form").delay(100).fadeIn(100);
  		$("#register-form").fadeOut(100);
 		$('#register-form-link').removeClass('active');
+		$("#forgot-form").fadeOut(100);
+		$('#register-form-link').removeClass('active');
 		$(this).addClass('active');
+		document.getElementById("mid_three").style.display="none";
+		document.getElementById("mid_two").style.display="block";
 		e.preventDefault();
 	});
 	$('#register-form-link').click(function(e) {
 		$("#register-form").delay(100).fadeIn(100);
  		$("#login-form").fadeOut(100);
 		$('#login-form-link').removeClass('active');
+		$("#forgot-form").fadeOut(100);
+		$('#register-form-link').removeClass('active');
+		document.getElementById("mid_three").style.display="none";
+		document.getElementById("mid_one").style.display="block";
+		$(this).addClass('active');
+		e.preventDefault();
+	});
+	$('#fpass').click(function(e) {
+		$("#login-form").fadeOut(100);
+ 		$("#register-form").fadeOut(100);
+		$('#register-form-link').removeClass('active');
+		$('#login-form-link').removeClass('active');
+		$("#forgot-form").delay(100).fadeIn(100);
+		document.getElementById("mid_two").style.display="none";
+		document.getElementById("mid_three").style.display="block";
 		$(this).addClass('active');
 		e.preventDefault();
 	});
 });
 
-var allowsubmit = false;
-$(function(){
-    
+    var allowsubmit = false;
+
+    $(function(){
 	$('#confpass').keyup(function(e){
 		//get values 
 		var pass = $('#pass').val();
@@ -188,7 +226,6 @@ $(function(){
     		allowEmx = true;
     		 }
     		 else{
-    			 
     			 $('#errorEmail').text('Enter your work email only.');
     			 allowEmx = false;
     		 }
@@ -201,7 +238,8 @@ $(function(){
 			return false;
 		}
 	});
-});
+	
+    });
 
     function showError(txxt)
     {
@@ -230,6 +268,30 @@ $(function(){
         confirmButtonText: 'OK'
         });
     }
+    function showInfo()
+    {
+    	Swal.fire({
+        title: 'Password Resent',
+        text: 'Old credentials are sent to your mail. Kindly, check your mailbox(Inbox/Junk/Spam/Other) from swctic2020@gmail.com',
+        type: 'info',
+        confirmButtonText: 'OK'
+        }).then(function(){ 
+        	window.location.replace("home.jsp");
+        }
+     );
+    }
+    function showInfo2()
+    {
+    	Swal.fire({
+            title: 'Error',
+            text: 'The password reset limit has been reached. Kindly, contact the Dev team for password reset.',
+            type: 'error',
+            confirmButtonText: 'OK'
+            }).then(function(){
+            	window.location.replace("home.jsp");
+            }
+         );
+    }
 </script>
 <%
 String failz=null;
@@ -251,6 +313,7 @@ if(failz!=null)
         </script>
      <%
     }
+
 String successz=null;
 successz=(String)request.getAttribute("success");
 if(successz!=null)
@@ -258,6 +321,28 @@ if(successz!=null)
     %>
         <script>
             showSuccess();
+        </script>
+     <%
+    }
+
+String reset_successz=null;
+reset_successz=(String)request.getAttribute("reset_stat");
+if(reset_successz!=null)
+    {
+    %>
+        <script>
+            showInfo();
+        </script>
+     <%
+    }
+
+String reset_error=null;
+reset_error=(String)request.getAttribute("reset_stat_error");
+if(reset_error!=null)
+    {
+    %>
+        <script>
+            showInfo2();
         </script>
      <%
     }

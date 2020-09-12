@@ -77,7 +77,7 @@
             <div class="row countup">
                <div class="col-md-12 col-sm-6 sticky-top align-self-center align-top" style="margin-top: -60px;padding:0px">
                     <nav class="navbar navbar-expand-md navigation-clean " style="-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;">
-                    <img class="img-fluid" style="height:auto" src="assets/images/swclogo.png">
+                    <img class="img-fluid" style="height:auto" src="assets/images/lnt_swc_trans.png">
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -243,8 +243,8 @@
         });
         
       function basicPopup(url) {
-popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');
-	}
+		popupWindow = window.open(url,'popUpWindow','height=600,width=600,left=50,top=50,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');
+		}
      </script>
 </body>
 

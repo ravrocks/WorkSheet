@@ -21,11 +21,13 @@
     <%
     String userName = null;
     String showMonth=null;
+    String showYear=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
         if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
+        if(cookie.getName().equals("show_year")) showYear = cookie.getValue();
     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
@@ -37,8 +39,8 @@
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
     String fquery="select * from userdata where moncreate<="+showMonth+" and usertype='user' and validity=1";
-    String squery="select distinct userstatus.name, userstatus.psno, userdata.email from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+showMonth+" and status='Submitted'";
-    String tquery="select distinct userdata.name, userdata.psno, userdata.email from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and validity=1 and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted')";
+    String squery="select distinct userstatus.name, userstatus.psno, userdata.email from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+showMonth+" and status='Submitted' and year='"+showYear+"'";
+    String tquery="select distinct userdata.name, userdata.psno, userdata.email from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and validity=1 and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted' and year='"+showYear.trim()+"')";
 	ResultSet res=null;
     if(calling.equals("total"))
     res=statementt.executeQuery(fquery);

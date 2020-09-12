@@ -25,13 +25,14 @@ public class DataFeed2 extends HttpServlet{
 		  response.setContentType("text/html");
 		  PrintWriter out = response.getWriter();  
 		  String datez = request.getParameter("sanding");
-		  String userPsno = null,viewing_month=null,userName=null;
+		  String userPsno = null,viewing_month=null,userName=null,viewing_year=null;
             Cookie[] cookies = request.getCookies();
             if(cookies !=null){
                 for(Cookie cookie : cookies){
                 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
                     if(cookie.getName().equals("timesheet_psno")) userPsno = cookie.getValue();
                     if(cookie.getName().equals("timesheet_load_month")) viewing_month = cookie.getValue();
+                    if(cookie.getName().equals("timesheet_load_year")) viewing_year = cookie.getValue();
                 }
             }
             try{
@@ -47,7 +48,7 @@ public class DataFeed2 extends HttpServlet{
               		  break;
               	  }
                 }
-          	  updateSS.executeUpdate("update userstatus set status='Submitted' where name='"+userName+"' and psno="+userPsno+" and month="+viewing_month_int);          	  
+          	  updateSS.executeUpdate("update userstatus set status='Submitted' where name='"+userName+"' and psno="+userPsno+" and year='"+viewing_year+"' and month="+viewing_month_int);          	  
           	  updateSS.close();
           	  conn.close();
             }
@@ -130,11 +131,11 @@ public class DataFeed2 extends HttpServlet{
             	 System.out.println(joshObj.toString());
                  e.printStackTrace();
                  if(eOut.contains("too long"))
-                	 response.getWriter().print("Error Code - Lemon"+"\n"+eOut.substring(0, 400));
+                	 response.getWriter().print("Error Code - Lemon"+"\n\t"+eOut.substring(0, 400));
                  else if(eOut.contains("unique"))
-                	 response.getWriter().print("Error Code - Guitar"+"\n"+eOut.substring(0, 400));
+                	 response.getWriter().print("Error Code - Guitar"+"\n\t"+eOut.substring(0, 400));
                  else
-                	 response.getWriter().print("Error Code - Salad"+"\n"+eOut.substring(0, 400));
+                	 response.getWriter().print("Error Code - Salad"+"\n\t"+eOut.substring(0, 400));
               } 
 		  }
      

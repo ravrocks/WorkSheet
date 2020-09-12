@@ -14,8 +14,22 @@
         if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
     }
     }
-    if(userName == null) response.sendRedirect("home.jsp");
-    
+    if(userName == null) 
+    	{
+        if(cookies !=null)
+        {
+        for(Cookie cookie : cookies){
+    	cookie.setMaxAge(0);
+            cookie.setValue(null);
+            response.addCookie(cookie);
+            }
+        }
+        response.setHeader("Cache-Control","no-cache");
+        response.setHeader("Cache-Control","no-store");
+        response.setHeader("Pragma","no-cache");
+        response.setDateHeader ("Expires", 0);
+    		response.sendRedirect("home.jsp");
+    	}
 %>
 <head>
     <meta charset="utf-8">
