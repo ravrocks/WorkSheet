@@ -48,7 +48,7 @@
     <div class="col-md-12 col-sm-12 sticky-top align-self-center align-top">
         <nav class="navbar navbar-expand-md navigation-clean" style="margin-bottom: 5px">
         
-		<img class="img-fluid" style="height:auto" src="assets/images/lnt_swc_trans.png">
+		<img class="img-fluid" style="width:180px;height:auto" src="assets/images/swc_logo_new.jpg">
 		<button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
 		<span class="sr-only">Toggle navigation</span>
           <span class="navbar-toggler-icon"><i class="fa fa-navicon" style="float: right"></i></span>

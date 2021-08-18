@@ -291,8 +291,11 @@
                           %>
                     	  <td class="col-md-1 col-lg-1" align="center" style="color: #CC3300;font-family: Georgia, serif;font-size:15px">
                               <%
+                              //System.out.println("printdate year is "+printdate);
                               int yr_val=printdate.indexOf(viewing_year);
                               String formal_printdate=printdate.substring(0,yr_val-1).trim();
+                              
+
                               if(exdate.equalsIgnoreCase(printdate))
                                 out.print("<span style='color:#fff;opacity:.1'>"+formal_printdate+"</span>");
                               else

@@ -15,7 +15,6 @@
     if(userName == null) response.sendRedirect("home.jsp");
 
 Connection connection = null;
-Statement statement = null;
 ResultSet rs = null;
 ResultSet rs1 = null;
 String psn = request.getParameter("psno");
@@ -34,15 +33,17 @@ String psn = request.getParameter("psno");
 <%
 try{
 connection = new getConnection().getConnection();
-statement=connection.createStatement();
 String sql ="update userdata set validity=? where psno=?";
 PreparedStatement ps = connection.prepareStatement(sql); 
 ps.setInt(1, 1);
 ps.setInt(2, Integer.parseInt(psn));
 ps.executeUpdate();
+ps.close();
 connection.close();
+response.getWriter().write("User-"+psn+" Approved Successfully!");
 } 
 catch (Exception e) {
+	response.getWriter().write(e.toString());
 e.printStackTrace();
 }
 %>

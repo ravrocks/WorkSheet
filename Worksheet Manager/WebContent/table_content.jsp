@@ -229,7 +229,7 @@
                         		  break;
                         	  }
                           }
-                    	  updateSS.executeUpdate("insert into userstatus(name,psno,month,status,year) values('"+userName+"',"+userPsno+","+viewing_month_int+",'Pending',"+viewing_year+") ON CONFLICT(name,psno,month,status,year) DO NOTHING");
+                    	  updateSS.executeUpdate("insert into userstatus(name,psno,month,status,year) values('"+userName+"',"+userPsno+","+viewing_month_int+",'Pending',"+viewing_year+") ON CONFLICT(id,name,psno,month,status,year) DO NOTHING");
                     	  
                     	  updateSS.close();
                     	  conn.close();

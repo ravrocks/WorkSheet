@@ -25,9 +25,9 @@
     try{
     Connection connectionn = new getConnection().getConnection();
     Statement statementt=connectionn.createStatement();
-    String fquery="select count(*) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'";
-    String squery="select count(distinct userstatus.name) from userstatus where userstatus.month="+Integer.parseInt(showMonth)+" and status='Submitted' and year='"+showYear+"'";
-    String tquery="select count(distinct userdata.name) from userdata where moncreate<="+Integer.parseInt(showMonth)+" and usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted' and year='"+showYear+"')";
+    String fquery="select distinct count(*) from userdata where validity=1 and usertype='user'";
+    String squery="select count(distinct userstatus.psno) from userstatus where userstatus.month="+Integer.parseInt(showMonth)+" and status='Submitted' and year='"+showYear+"'";
+    String tquery="select count(distinct userdata.psno) from userdata where usertype='user'"+" and userdata.psno not in (select distinct userstatus.psno from userstatus,userdata where userdata.psno=userstatus.psno and userstatus.month="+Integer.parseInt(showMonth)+" and status like 'Submitted' and year='"+showYear+"')";
     ResultSet ress=statementt.executeQuery(fquery);
     ress.next();
     total=ress.getString(1);
@@ -77,7 +77,7 @@
             <div class="row countup">
                <div class="col-md-12 col-sm-6 sticky-top align-self-center align-top" style="margin-top: -60px;padding:0px">
                     <nav class="navbar navbar-expand-md navigation-clean " style="-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;">
-                    <img class="img-fluid" style="height:auto" src="assets/images/lnt_swc_trans.png">
+                    <img class="img-fluid" style="width:180px;height:auto" src="assets/images/swc_logo_new.jpg">
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -120,8 +120,9 @@
 					<div class="dropdown" style="margin-top:5px">
 					 <button id="yearButton" class="btn-lg btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >Year</button>
 					 	<div id="yearMenu" class="dropdown-menu " role="menu" >
-					 		<a class="dropdown-item" role="presentation" >2019</a>
+                            <a class="dropdown-item" role="presentation" >2019</a>
 					 		<a class="dropdown-item" role="presentation" >2020</a>
+					 		<a class="dropdown-item" role="presentation" >2021</a>
 					 	</div>
                     </div>       
                     <h2 style="margin-top:10px">Select Duration</h2>

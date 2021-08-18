@@ -55,7 +55,7 @@
     <section>
     <div class="col-md-12 col-sm-6 sticky-top align-self-center align-top" style="margin-top:-20px;padding:0px">
                     <nav class="navbar navbar-expand-md navigation-clean " style="-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;">
-                    <img class="img-fluid" style="height:auto" src="assets/images/swclogo.png">
+                    <img class="img-fluid" style="width:180px;height:auto" src="assets/images/swc_logo_new.jpg">
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>

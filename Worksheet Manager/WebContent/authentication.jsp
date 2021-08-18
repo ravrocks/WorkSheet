@@ -125,10 +125,10 @@ function updation(str){
 	    document.getElementById("up").innerHTML = this.responseText;
 	    }
 	  };
-	 var xhttp;  
+	  var xhttp;  
 	  xhttp.open("POST", "update.jsp?psno="+str, true);
 	  xhttp.send();
-	  location.reload();
+	  window.location.reload(true);
 }
 function deletion(str){
 	var xhttp;
@@ -145,7 +145,7 @@ function deletion(str){
 	 var xhttp;  
 	  xhttp.open("POST", "deleteentry.jsp?psno="+str, true);
 	  xhttp.send();
-	  location.reload();
+	  window.location.reload(true);
 }
 </script>
 </body>

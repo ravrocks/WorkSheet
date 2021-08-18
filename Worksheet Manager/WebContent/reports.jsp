@@ -15,11 +15,13 @@
     <%
     String userName = null;
     String showMonth=null;
+        String showYear=null;
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
         if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
+        if(cookie.getName().equals("show_year")) showYear = cookie.getValue();
     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
@@ -32,8 +34,8 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String sql ="select subfunction,project,activitygroup,activity,date,hrs,remarks,fromtime from details where month="+Integer.parseInt(showMonth)+" and psno=? order by date asc";
-    String total="select sum(hrs) from details where month="+showMonth+" and psno=?";
+    String sql ="select subfunction,project,activitygroup,activity,date,hrs,remarks,fromtime from details where month="+Integer.parseInt(showMonth)+" and psno=? and year="+showYear+" order by date asc";
+    String total="select sum(hrs) from details where month="+showMonth+" and psno=? and year="+showYear;
 	//rs = statement.executeQuery(sql);
 	PreparedStatement ps = connection.prepareStatement(sql); 
 	PreparedStatement ps1 = connection.prepareStatement(total);

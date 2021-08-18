@@ -63,7 +63,7 @@ PreparedStatement ps2 = connection.prepareStatement(sql2);
 //ps.setString(1,"ntic");
 rs=ps.executeQuery();
 while(rs.next()){
-	String subfun = rs.getString(2);
+	String subfun = rs.getString("desc");
 	String str=null;
 	List<String> list = new ArrayList<String>();
 %>

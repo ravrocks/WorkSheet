@@ -15,11 +15,14 @@
     <%
     String userName = null;
     String showMonth=null;
+    String showYear=null;
+
     Cookie[] cookies = request.getCookies();
     if(cookies !=null){
     for(Cookie cookie : cookies){
 	if(cookie.getName().equals("timesheet_name")) userName = cookie.getValue();
         if(cookie.getName().equals("show_month")) showMonth = cookie.getValue();
+         if(cookie.getName().equals("show_year")) showYear = cookie.getValue();
     }
     }
     if(userName == null) response.sendRedirect("home.jsp");
@@ -32,8 +35,8 @@
     try{
     Connection connection=oye.getConnection();
     Statement statementt=connection.createStatement();
-    String sql ="select derivedtables.project,sum(derivedtables.hrs) from (select distinct date,hrs,project,remarks from details where month="+showMonth+" and psno=? and project NOT LIKE 'Leave/Holiday' order by project) as derivedtables group by derivedtables.project";
-    String total="select sum(derivedtabless.hrs) from (select distinct date,hrs,project,remarks from details where month="+showMonth+" and psno=? and project NOT LIKE 'Leave/Holiday' order by project) as derivedtabless";
+    String sql ="select derivedtables.project,sum(derivedtables.hrs) from (select distinct date,hrs,project,remarks from details where month="+showMonth+" and psno=? and year="+showYear+" and project NOT LIKE 'Leave/Holiday' order by project) as derivedtables group by derivedtables.project";
+    String total="select sum(derivedtabless.hrs) from (select distinct date,hrs,project,remarks from details where month="+showMonth+" and psno=? and year="+showYear+" and project NOT LIKE 'Leave/Holiday' order by project) as derivedtabless";
 	//rs = statement.executeQuery(sql);
 	PreparedStatement ps = connection.prepareStatement(sql); 
 	PreparedStatement ps1 = connection.prepareStatement(total); 
@@ -48,7 +51,7 @@
     <table id="example" class="display table-bordered" style="width:99%">
     <thead>
         <tr>
-				<th scope="col">Subfunction</th>
+				<th scope="col">Project</th>
 				<th scope="col">Total hrs</th>
         </tr>
     </thead>    

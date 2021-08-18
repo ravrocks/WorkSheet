@@ -22,8 +22,8 @@
                 <div class="col-md-6 col-md-offset-3 " id="login-box">
                     <div class="panel panel-login">
                         <div class="panel-heading">
-                        <div class="logo">
-                            <img src="assets/images/lnt_Swc_logo.png">   
+                        <div class="logo" style="width:270px;height:auto">
+                            <img src="assets/images/swc_logo_new.jpg" style="max-width: 100%;max-height: 100%">   
                         </div>
                         <div class="form-group">
                             <div class="row tab-head">

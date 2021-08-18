@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_172">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_281">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -13,9 +13,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="E:/Important JARS/gson-2.6.2.jar"/>
-	<classpathentry kind="lib" path="E:/Important JARS/json-20190722.jar"/>
-	<classpathentry kind="lib" path="E:/Important JARS/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="E:/Final Jar files to copy/postgresql-42.2.5.jar"/>
+	<classpathentry kind="lib" path="D:/Important JARS/gson-2.8.2.jar"/>
+	<classpathentry kind="lib" path="D:/Important JARS/json-20190722.jar"/>
+	<classpathentry kind="lib" path="D:/Important JARS/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="D:/Important JARS/postgresql-42.2.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
